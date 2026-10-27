@@ -4,399 +4,495 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CryptoBro Identity Lab</title>
+<title>CryptoBro Name Generator</title>
+
 <style>
-  * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-  body {
-    margin: 0;
-    background: #101827;
-    color: #f8fafc;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.5;
-  }
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 26px 14px;
+  background: radial-gradient(circle at top, #35216b, #10152d 70%);
+  color: white;
+  font-family: Arial, sans-serif;
+}
 
-  .container {
-    max-width: 760px;
-    margin: 35px auto;
-    padding: 24px;
-  }
+main {
+  max-width: 620px;
+  margin: auto;
+  padding: 28px;
+  background: #171d3a;
+  border: 2px solid #8058f1;
+  border-radius: 24px;
+  box-shadow: 0 0 40px #8e4cf044;
+}
 
-  header { text-align: center; margin-bottom: 28px; }
+h1 {
+  text-align: center;
+  color: #4ce9f7;
+  margin: 0 0 8px;
+}
 
-  .coin { font-size: 56px; }
+.subtitle {
+  text-align: center;
+  color: #c6bde8;
+}
 
-  h1 {
-    color: #facc15;
-    font-size: clamp(28px, 6vw, 43px);
-    margin: 8px 0;
-  }
+label {
+  display: block;
+  margin: 16px 0 7px;
+  font-weight: bold;
+}
 
-  .subtitle { color: #cbd5e1; }
+select {
+  width: 100%;
+  padding: 13px;
+  background: #293052;
+  color: white;
+  border: 1px solid #8b7db9;
+  border-radius: 9px;
+  font-size: 16px;
+}
 
-  .card {
-    background: #1e293b;
-    border: 1px solid #475569;
-    border-radius: 18px;
-    padding: 24px;
-    margin-bottom: 20px;
-  }
+.result {
+  margin-top: 24px;
+  padding: 23px 14px;
+  text-align: center;
+  border: 2px solid #37e4f4;
+  background: #0d122a;
+  border-radius: 16px;
+}
 
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  color: #bda6ff;
+}
 
-  select, input {
-    display: block;
-    width: 100%;
-    padding: 13px;
-    margin-bottom: 22px;
-    border: 1px solid #64748b;
-    border-radius: 9px;
-    background: #0f172a;
-    color: white;
-    font-size: 16px;
-  }
+#name {
+  font-size: clamp(24px, 5vw, 35px);
+  font-weight: 900;
+  margin: 15px 0;
+  overflow-wrap: anywhere;
+}
 
-  .hint {
-    color: #cbd5e1;
-    font-size: 13px;
-    margin: -13px 0 20px;
-  }
+#persona {
+  font-size: 21px;
+  font-weight: bold;
+  color: #52e5ef;
+  margin: 12px 0;
+}
 
-  button {
-    border: 0;
-    border-radius: 10px;
-    padding: 15px 18px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+#description {
+  color: #e1dcfa;
+  line-height: 1.5;
+  min-height: 42px;
+}
 
-  .generate {
-    background: #facc15;
-    color: #111827;
-    width: 100%;
-  }
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
 
-  .copy {
-    background: #334155;
-    color: white;
-    width: 100%;
-    margin-top: 12px;
-    border: 1px solid #64748b;
-  }
+button {
+  flex: 1;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-  button:hover { filter: brightness(1.12); }
-  button:focus-visible, select:focus-visible, input:focus-visible {
-    outline: 3px solid #facc15;
-    outline-offset: 3px;
-  }
+.primary {
+  background: #48dce8;
+  color: #0a1630;
+}
 
-  .result {
-    text-align: center;
-    background: #172338;
-    border: 2px solid #facc15;
-    border-radius: 18px;
-    padding: 28px 20px;
-    margin-top: 22px;
-  }
+.secondary {
+  background: #a878ff;
+  color: #10152d;
+}
 
-  .eyebrow {
-    color: #facc15;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 1.4px;
-  }
+footer {
+  text-align: center;
+  color: #b5afd0;
+  font-size: 12px;
+  margin-top: 20px;
+}
 
-  #cryptoName {
-    font-size: clamp(21px, 4.5vw, 30px);
-    overflow-wrap: anywhere;
-    margin: 16px 0;
-  }
-
-  #personality {
-    color: #e2e8f0;
-    font-size: 16px;
-    font-style: italic;
-    margin-top: 12px;
-  }
-
-  #status { min-height: 22px; color: #fde68a; }
-
-  footer {
-    text-align: center;
-    color: #94a3b8;
-    font-size: 12px;
-    margin-top: 28px;
-  }
+@media (max-width: 430px) {
+  main { padding: 20px; }
+  .actions { flex-direction: column; }
+}
 </style>
 </head>
 
 <body>
-<div class="container">
-  <header>
-    <div class="coin">🪙 😎 🚀</div>
-    <h1>CRYPTOBRO IDENTITY LAB</h1>
-    <p class="subtitle">
-      Welcome to the blockchain, bro.<br>
-      Your questionable crypto identity awaits.
-    </p>
-  </header>
+<main>
+<h1>₿ CryptoBro Name Generator ₿</h1>
+<p class="subtitle">
+  Mint your unofficial 2026 Boot Camp identity!
+</p>
 
-  <main>
-    <div class="card">
-      <label for="crypto">1. Which crypto would you YOLO your imaginary savings into?</label>
-      <select id="crypto">
-        <option value="bitcoin">Bitcoin</option>
-        <option value="ethereum">Ethereum</option>
-        <option value="dogecoin">Dogecoin</option>
-        <option value="solana">Solana</option>
-        <option value="cardano">Cardano</option>
-        <option value="xrp">XRP</option>
-        <option value="shiba">Shiba Inu</option>
-        <option value="litecoin">Litecoin</option>
-        <option value="pepe">Pepe</option>
-        <option value="usdc">USDC</option>
-        <option value="mystery">Mystery Coin</option>
-      </select>
+<label for="gender">Choose your name style</label>
+<select id="gender">
+  <option value="female">Female</option>
+  <option value="male">Male</option>
+  <option value="neutral">Gender-neutral</option>
+</select>
 
-      <label for="initial">Optional: First letter of your real name</label>
-      <input id="initial" type="text" maxlength="1"
-             placeholder="A-Z, or leave blank for a surprise">
-      <p class="hint">Your initial adds another twist to your crypto name.</p>
+<label for="investment">
+  Where would you invest or collect?
+</label>
+<select id="investment">
+  <option>Bitcoin</option>
+  <option>Ethereum</option>
+  <option>Dogecoin</option>
+  <option>Solana</option>
+  <option>XRP</option>
+  <option>Shiba Inu</option>
+  <option>Memecoins</option>
+  <option>Stablecoins</option>
+  <option>Bored Ape Yacht Club</option>
+  <option>CryptoPunks</option>
+  <option>Pudgy Penguins</option>
+  <option>Azuki</option>
+  <option>Doodles</option>
+</select>
 
-      <label for="role">2. What's your support role?</label>
-      <select id="role">
-        <option value="gq">GQ</option>
-        <option value="esc1">ESC 1</option>
-        <option value="esc2">ESC 2</option>
-        <option value="esc3">ESC 3</option>
-        <option value="supervisor">Supervisor</option>
-        <option value="manager">Manager</option>
-        <option value="pro">Pro</option>
-      </select>
+<label for="role">ESC level or role</label>
+<select id="role">
+  <option>GQ</option>
+  <option>ESC 1</option>
+  <option>ESC 2</option>
+  <option>ESC 3</option>
+  <option>Supervisor</option>
+  <option>Manager</option>
+  <option>Pro</option>
+</select>
 
-      <label for="tenure">3. How many years have you been here?</label>
-      <select id="tenure">
-        <option value="under2">Less than 2 years</option>
-        <option value="2">2 years</option>
-        <option value="3">3 years</option>
-        <option value="4">4 years</option>
-        <option value="5">5 years</option>
-        <option value="6plus">6+ years</option>
-      </select>
+<label for="tenure">Time at the company</label>
+<select id="tenure">
+  <option value="Under 2">Under 2 years</option>
+  <option value="2">2 years</option>
+  <option value="3">3 years</option>
+  <option value="4">4 years</option>
+  <option value="5">5 years</option>
+  <option value="6+">6+ years</option>
+</select>
 
-      <button class="generate" id="generateBtn" type="button">
-        🚀 Generate My CryptoBro Identity
-      </button>
+<section class="result" aria-live="polite">
+  <div class="eyebrow">CRYPTO IDENTITY UNLOCKED</div>
+  <div id="name"></div>
+  <div id="persona"></div>
+  <div id="description"></div>
+</section>
 
-      <section class="result" aria-live="polite">
-        <div class="eyebrow">YOUR OFFICIAL CRYPTOBRO NAME</div>
-        <h2 id="cryptoName">??? ??? ???</h2>
-
-        <div class="eyebrow">YOUR CRYPTO INVESTOR PERSONALITY</div>
-        <p id="personality">
-          The blockchain is still processing your destiny...
-        </p>
-
-        <button class="copy" id="copyBtn" type="button">
-          📋 Copy My Identity for Teams
-        </button>
-        <p id="status" role="status"></p>
-      </section>
-    </div>
-  </main>
-
-  <footer>
-    Certified by the Totally Unofficial Blockchain Bro Academy.<br>
-    No actual investing required. Financial wisdom not guaranteed.
-  </footer>
+<div class="actions">
+  <button class="primary" onclick="generate()">
+    🚀 Generate Another
+  </button>
+  <button class="secondary" onclick="copyIdentity()">
+    📋 Copy Identity
+  </button>
 </div>
 
+<footer>
+  2026 Boot Camp • Just for fun • Not financial advice
+</footer>
+</main>
+
 <script>
-"use strict";
-
-const cryptoWords = {
-  bitcoin: ["Satoshi", "Bitcoin", "BitLord", "HODL", "Moon"],
-  ethereum: ["Ether", "Vitalik", "Gwei", "Gaszilla", "Ethos"],
-  dogecoin: ["Doge", "Shibe", "Bork", "MuchWow", "MoonDoge"],
-  solana: ["Sol", "Solana", "SolBro", "TurboSol", "SunCoin"],
-  cardano: ["Ada", "Cardano", "AdaMax", "Stakezilla", "Cardanator"],
-  xrp: ["Ripple", "XRP", "RippleBro", "XRPanda", "MoonRipple"],
-  shiba: ["Shiba", "Inu", "Shibzilla", "ShibBro", "BorkCoin"],
-  litecoin: ["Lite", "LiteBro", "SilverCoin", "Litezilla", "MoonLite"],
-  pepe: ["Pepe", "FrogLord", "PepeMax", "Ribbit", "FrogCoin"],
-  usdc: ["Stable", "DollarBro", "Stablezilla", "PegLord", "USDC"],
-  mystery: ["Mystery", "Rugzilla", "CoinGoblin", "MoonWizard", "TokenBro"]
+// FIRST NAMES
+const firstNames = {
+  female: [
+    "Tiffany", "Brittany", "Ashley", "Jessica",
+    "Madison", "Chloe", "Luna", "Stacy"
+  ],
+  male: [
+    "Chad", "Kyle", "Brock", "Tyler",
+    "Dylan", "Jake", "Logan", "Trevor"
+  ],
+  neutral: [
+    "Satoshi", "Alex", "Riley", "Jordan",
+    "Skyler", "Morgan", "Quinn", "Phoenix"
+  ]
 };
 
-const roleWords = {
-  gq: ["ChatNinja", "QueueGoblin", "TicketTamer", "ReplyLord", "HelpBot"],
-  esc1: ["BugHunter", "FixWizard", "ChatTitan", "TicketNinja", "CaseCrusher"],
-  esc2: ["WalletDetective", "TaxNinja", "Escalator", "BugSlayer", "CaseWizard"],
-  esc3: ["TaxTitan", "CodeWhisperer", "LogicLord", "FormWizard", "IssueHunter"],
-  supervisor: ["TeamCaptain", "QueueOverlord", "Coachzilla", "SupportBoss", "HuddleHero"],
-  manager: ["BossMode", "MeetingWizard", "SpreadsheetKing", "StrategyGoblin", "KPIzilla"],
-  pro: ["TaxOracle", "FormNinja", "DeductionLord", "AuditWizard", "TaxSage"]
+// MIDDLE NAMES BASED ON INVESTMENT OR NFT
+const cryptoNames = {
+  Bitcoin: ["HODL", "Satoshi", "Diamond", "Moon"],
+  Ethereum: ["Gas", "Ether", "Gwei", "Vitalik"],
+  Dogecoin: ["Doge", "Shibe", "Meme", "Moon"],
+  Solana: ["Speed", "Sol", "Rocket", "Turbo"],
+  XRP: ["Ripple", "XRP", "Ledger", "Rocket"],
+  "Shiba Inu": ["Shiba", "Shib", "Woof", "Meme"],
+  Memecoins: ["Degen", "FOMO", "YOLO", "WAGMI"],
+  Stablecoins: ["Stable", "Peg", "Dollar", "Anchor"],
+  "Bored Ape Yacht Club": [
+    "Ape", "Banana", "Yacht", "Primate"
+  ],
+  CryptoPunks: ["Punk", "Pixel", "OG", "Mohawk"],
+  "Pudgy Penguins": [
+    "Penguin", "Pudgy", "Waddle", "Ice"
+  ],
+  Azuki: ["Samurai", "Bean", "Anime", "Spirit"],
+  Doodles: ["Doodle", "Rainbow", "Sketch", "Pastel"]
 };
 
-const tenureWords = {
-  under2: ["Rookie", "Newbie", "FreshMint", "BabyWhale", "Starter"],
-  "2": ["DoubleDip", "TwoChain", "LevelTwo", "BitBuddy", "Twostack"],
-  "3": ["Triplechain", "ThreeStack", "TriHODL", "TripleMoon", "Threepeat"],
-  "4": ["QuadCoin", "FourStack", "BlockFour", "QuadWhale", "Fourtune"],
-  "5": ["Fivestar", "FiveStack", "Pentacoin", "FiveAlive", "Quintzilla"],
-  "6plus": ["Veteran", "OG", "Legend", "ElderWhale", "DiamondOG"]
+// LAST NAME PREFIX: ESC LEVEL
+const roleNames = {
+  "GQ": "Rookie",
+  "ESC 1": "Ninja",
+  "ESC 2": "Wizard",
+  "ESC 3": "Legend",
+  "Supervisor": "Captain",
+  "Manager": "Titan",
+  "Pro": "Oracle"
 };
 
-const initialWords = {
-  A: ["Alpha", "Astro"],
-  B: ["Baller", "Bork"],
-  C: ["Cosmic", "Chaos"],
-  D: ["Degen", "Diamond"],
-  E: ["Epic", "Electric"],
-  F: ["FOMO", "Frog"],
-  G: ["Gigachad", "Galaxy"],
-  H: ["HODL", "Hyper"],
-  I: ["Iconic", "Infinity"],
-  J: ["Jumbo", "Jet"],
-  K: ["King", "Krypto"],
-  L: ["Laser", "Legend"],
-  M: ["Mega", "Moon"],
-  N: ["Neon", "Noodle"],
-  O: ["Omega", "Orbit"],
-  P: ["Pixel", "Pump"],
-  Q: ["Quantum", "Quack"],
-  R: ["Rocket", "Rizz"],
-  S: ["Satoshi", "Sigma"],
-  T: ["Turbo", "Token"],
-  U: ["Ultra", "Unicorn"],
-  V: ["Viral", "Vortex"],
-  W: ["Whale", "Waffle"],
-  X: ["Xtreme", "Xeno"],
-  Y: ["YOLO", "Yeti"],
-  Z: ["Zilla", "Zoom"]
+// LAST NAME SUFFIX: YEARS AT COMPANY
+const tenureNames = {
+  "Under 2": "Spark",
+  "2": "Rocket",
+  "3": "Moon",
+  "4": "Diamond",
+  "5": "Whale",
+  "6+": "Galaxy"
 };
 
+// 40 UNIQUE CRYPTO PERSONALITIES
+// Each has a title and a funny description.
 const personalities = [
-  "Has 47 crypto wallets and remembers exactly zero passwords.",
-  "Has never taken profits, only screenshots.",
-  "Owns three dog coins and calls that diversification.",
-  "Calls a 2% gain generational wealth.",
-  "Gets financial advice from a frog wearing sunglasses.",
-  "Is emotionally diversified across panic, FOMO, and delusion.",
-  "Buys the dip but has no idea what a dip is.",
-  "Thinks blockchain is a new feature in Minecraft.",
-  "Says 'we're early' about a coin that's already crashed.",
-  "Checks crypto prices more often than Teams messages.",
-  "Has a five-year investment plan that changes every 12 minutes.",
-  "Refers to losing money as 'building character.'",
-  "Only invests in coins with cute animal mascots.",
-  "Calls every transaction a strategic blockchain maneuver.",
-  "Has diamond hands and paper-thin patience.",
-  "Believes every green candle is a personal achievement.",
-  "Still waiting for a coin called DefinitelyNotAScam to recover.",
-  "Owns a hardware wallet but can't find the charging cable.",
-  "Uses the phrase 'to the moon' during normal conversations.",
-  "Has a spreadsheet tracking imaginary crypto millions.",
-  "Thinks gas fees should be reimbursed by the company.",
-  "Treats a $4 crypto gain like a retirement announcement.",
-  "Has a portfolio that's 90% hope and 10% dog pictures.",
-  "Buys at the top and calls it premium entry positioning.",
-  "Refuses to sell because the chart might feel rejected.",
-  "Has researched crypto for six minutes and is now an expert.",
-  "Explains blockchain using a pizza analogy nobody requested.",
-  "Wants to speak to the blockchain's supervisor.",
-  "Opened a support ticket with Bitcoin customer service.",
-  "Thinks HODL is a mandatory employee certification.",
-  "Has more crypto opinions than actual crypto.",
-  "Calls every red candle a limited-time buying opportunity."
+  [
+    "The Diamond-Handed Tax Wizard",
+    "Survived three crashes and still asks for cost basis."
+  ],
+  [
+    "The Gas Fee Goblin",
+    "Paid $45 to transfer $7 and called it innovation."
+  ],
+  [
+    "The Moon Mission Commander",
+    "Every chart is apparently preparing for liftoff."
+  ],
+  [
+    "The Rug Pull Detective",
+    "Trusts nobody, especially a token named SafeMoonAgain."
+  ],
+  [
+    "The NFT Museum Curator",
+    "Owns pixel art and calls the collection a gallery."
+  ],
+  [
+    "The Spreadsheet Satoshi",
+    "Tracks every satoshi down to eight decimals."
+  ],
+  [
+    "The Dip Collector",
+    "Bought the dip, then collected five more dips."
+  ],
+  [
+    "The Airdrop Archaeologist",
+    "Checks forgotten wallets for surprise treasure."
+  ],
+  [
+    "The Blockchain Bard",
+    "Can turn any transaction into a dramatic story."
+  ],
+  [
+    "The Meme Coin Monarch",
+    "Invests based on dog pictures and vibes."
+  ],
+  [
+    "The Wallet Whisperer",
+    "Has twelve wallets and remembers two passwords."
+  ],
+  [
+    "The Chart Horoscope Reader",
+    "Mercury is retrograde, so Bitcoin must rally."
+  ],
+  [
+    "The Stablecoin Sailor",
+    "Loves excitement but prefers a steady peg."
+  ],
+  [
+    "The Altcoin Astronaut",
+    "Explores tokens nobody has heard of yet."
+  ],
+  [
+    "The Tax Season Survivor",
+    "Can explain Form 8949 while half asleep."
+  ],
+  [
+    "The HODL Hermit",
+    "Has not checked a portfolio since 2021."
+  ],
+  [
+    "The FOMO Firefighter",
+    "Buys at the top and calls it urgent research."
+  ],
+  [
+    "The Cold Wallet Cowboy",
+    "Keeps keys offline and secrets even farther away."
+  ],
+  [
+    "The DeFi Dungeon Master",
+    "Knows every protocol and none of the risks."
+  ],
+  [
+    "The Staking Sorcerer",
+    "Makes tokens work while they take a nap."
+  ],
+  [
+    "The Bitcoin Breakfast Club",
+    "Says good morning to the blockchain."
+  ],
+  [
+    "The Paper Hands Pirate",
+    "Abandons ship at the first red candle."
+  ],
+  [
+    "The Laser Eyes Legend",
+    "Has been bullish since before breakfast."
+  ],
+  [
+    "The Token Treasure Hunter",
+    "Finds obscure coins in mysterious corners."
+  ],
+  [
+    "The Crypto Compliance Ninja",
+    "Asks about documentation before the hype."
+  ],
+  [
+    "The Liquidity Pool Lifeguard",
+    "Watches the pool for suspicious splashes."
+  ],
+  [
+    "The Fork Road Ranger",
+    "Takes every blockchain split personally."
+  ],
+  [
+    "The Smart Contract Spellcaster",
+    "Thinks code can fix the office printer."
+  ],
+  [
+    "The Satoshi Snack Captain",
+    "Stacks sats and hoards office snacks."
+  ],
+  [
+    "The NFT Penguin Wrangler",
+    "Has a digital penguin with a better wardrobe."
+  ],
+  [
+    "The Diamond Desk Defender",
+    "Protects their keyboard and their coins."
+  ],
+  [
+    "The Bull Run Cheerleader",
+    "Every green candle deserves a parade."
+  ],
+  [
+    "The Bear Market Botanist",
+    "Insists portfolios grow better in winter."
+  ],
+  [
+    "The Transaction Hash Hunter",
+    "Can find a receipt on any block explorer."
+  ],
+  [
+    "The Crypto Karaoke King",
+    "Only sings songs about going to the moon."
+  ],
+  [
+    "The Secret Seed Guardian",
+    "Will never type a recovery phrase into chat."
+  ],
+  [
+    "The Yield Farming Farmer",
+    "Harvests rewards but forgot the tractor."
+  ],
+  [
+    "The Degen Disco Dancer",
+    "Trades by moonlight and dances through volatility."
+  ],
+  [
+    "The Tax Form Time Traveler",
+    "Still looking for last year's transaction history."
+  ],
+  [
+    "The WAGMI Welcome Committee",
+    "Believes everyone can make it, with good records."
+  ]
 ];
 
-const $ = id => document.getElementById(id);
+let previousFirst = "";
+let previousMiddle = "";
+let previousPersonality = -1;
 
-function randomItem(items) {
-  return items[Math.floor(Math.random() * items.length)];
+// Pick a random option, avoiding the previous one.
+function pick(items, previous) {
+  const options = items.length > 1
+    ? items.filter(item => item !== previous)
+    : items;
+
+  return options[Math.floor(Math.random() * options.length)];
 }
 
-let lastName = "";
-let lastPersonality = "";
-
+// GENERATE IDENTITY
 function generate() {
-  const crypto = $("crypto").value;
-  const role = $("role").value;
-  const tenure = $("tenure").value;
-  const initial = $("initial").value.trim().toUpperCase();
+  const gender = document.getElementById("gender").value;
+  const investment = document.getElementById("investment").value;
+  const role = document.getElementById("role").value;
+  const tenure = document.getElementById("tenure").value;
 
-  let name = "";
-  let personality = "";
+  const first = pick(firstNames[gender], previousFirst);
+  const middle = pick(cryptoNames[investment], previousMiddle);
 
-  // Avoid repeating the exact same name when rerolling.
-  for (let attempt = 0; attempt < 30; attempt++) {
-    let first = randomItem(cryptoWords[crypto]);
+  previousFirst = first;
+  previousMiddle = middle;
 
-    // Optional initial changes the first word, without adding length.
-    if (/^[A-Z]$/.test(initial) && Math.random() < 0.5) {
-      first = randomItem(initialWords[initial]);
-    }
+  const last = roleNames[role] + tenureNames[tenure];
+  const fullName = first + " " + middle + " " + last;
 
-    const middle = randomItem(roleWords[role]);
-    const last = randomItem(tenureWords[tenure]);
+  let id = Math.floor(Math.random() * personalities.length);
 
-    name = `${first} ${middle} ${last}`;
-
-    if (name !== lastName) break;
+  // Avoid repeating the same personality immediately.
+  if (id === previousPersonality) {
+    id = (id + 1) % personalities.length;
   }
 
-  for (let attempt = 0; attempt < 20; attempt++) {
-    personality = randomItem(personalities);
-    if (personality !== lastPersonality) break;
-  }
+  previousPersonality = id;
 
-  lastName = name;
-  lastPersonality = personality;
-
-  $("cryptoName").textContent = name;
-  $("personality").textContent = `"${personality}"`;
-  $("status").textContent = "";
+  document.getElementById("name").textContent = fullName;
+  document.getElementById("persona").textContent =
+    personalities[id][0];
+  document.getElementById("description").textContent =
+    '"' + personalities[id][1] + '"';
 }
 
+// COPY NAME AND PERSONALITY
 async function copyIdentity() {
-  if (!lastName) {
-    $("status").textContent = "Generate your identity first!";
-    return;
-  }
+  const name = document.getElementById("name").textContent;
+  const persona = document.getElementById("persona").textContent;
+  const description =
+    document.getElementById("description").textContent;
 
-  const text =
-    `🚀 My CryptoBro Name: ${lastName}\n` +
-    `😎 Investor Personality: ${lastPersonality}`;
+  const identity = name + "\n" + persona + "\n" + description;
 
   try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      const area = document.createElement("textarea");
-      area.value = text;
-      area.style.position = "fixed";
-      area.style.opacity = "0";
-      document.body.appendChild(area);
-      area.select();
-      const copied = document.execCommand("copy");
-      document.body.removeChild(area);
-      if (!copied) throw new Error("Copy unavailable");
-    }
-    $("status").textContent = "Copied! Paste it into Teams chat.";
+    await navigator.clipboard.writeText(identity);
+    alert("Crypto identity copied!");
   } catch (error) {
-    $("status").textContent =
-      "Copy blocked. Select your name and personality manually.";
+    window.prompt("Copy your crypto identity:", identity);
   }
 }
 
-$("generateBtn").addEventListener("click", generate);
-$("copyBtn").addEventListener("click", copyIdentity);
+// Generate a name when the page opens.
+generate();
 </script>
 </body>
 </html>
