@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CryptoBro Name Generator</title>
-
 <style>
 * { box-sizing: border-box; }
 
@@ -13,13 +12,13 @@ body {
   margin: 0;
   min-height: 100vh;
   padding: 26px 14px;
-  background: radial-gradient(circle at top, #35216b, #10152d 70%);
+  background: radial-gradient(circle at top, #38216e, #10152d 70%);
   color: white;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 main {
-  max-width: 620px;
+  max-width: 660px;
   margin: auto;
   padding: 28px;
   background: #171d3a;
@@ -37,11 +36,12 @@ h1 {
 .subtitle {
   text-align: center;
   color: #c6bde8;
+  line-height: 1.5;
 }
 
 label {
   display: block;
-  margin: 16px 0 7px;
+  margin: 17px 0 7px;
   font-weight: bold;
 }
 
@@ -56,8 +56,8 @@ select {
 }
 
 .result {
-  margin-top: 24px;
-  padding: 23px 14px;
+  margin-top: 25px;
+  padding: 24px 17px;
   text-align: center;
   border: 2px solid #37e4f4;
   background: #0d122a;
@@ -66,14 +66,15 @@ select {
 
 .eyebrow {
   font-size: 12px;
-  letter-spacing: 1.4px;
+  letter-spacing: 1.5px;
   color: #bda6ff;
+  font-weight: bold;
 }
 
 #name {
   font-size: clamp(24px, 5vw, 35px);
   font-weight: 900;
-  margin: 15px 0;
+  margin: 16px 0;
   overflow-wrap: anywhere;
 }
 
@@ -86,14 +87,35 @@ select {
 
 #description {
   color: #e1dcfa;
-  line-height: 1.5;
-  min-height: 42px;
+  line-height: 1.6;
+}
+
+.detail {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #343c63;
+}
+
+.detail-title {
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 0.7px;
+  margin-bottom: 10px;
+}
+
+.cyan { color: #52e5ef; }
+.purple { color: #c3a6ff; }
+
+.detail p {
+  margin: 0;
+  line-height: 1.65;
+  color: #e5e1f5;
 }
 
 .actions {
   display: flex;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 
 button {
@@ -105,6 +127,8 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
+
+button:hover { filter: brightness(1.12); }
 
 .primary {
   background: #48dce8;
@@ -121,6 +145,7 @@ footer {
   color: #b5afd0;
   font-size: 12px;
   margin-top: 20px;
+  line-height: 1.5;
 }
 
 @media (max-width: 430px) {
@@ -134,7 +159,7 @@ footer {
 <main>
 <h1>₿ CryptoBro Name Generator ₿</h1>
 <p class="subtitle">
-  Mint your unofficial 2026 Boot Camp identity!
+  Mint your unofficial 2026 TaxHawk Boot Camp identity!
 </p>
 
 <label for="gender">Choose your name style</label>
@@ -144,7 +169,7 @@ footer {
 </select>
 
 <label for="investment">
-  Where would you invest or collect?
+  Where would you invest your crypto fortune?
 </label>
 <select id="investment">
   <option>Bitcoin</option>
@@ -162,7 +187,7 @@ footer {
   <option>Doodles</option>
 </select>
 
-<label for="role">ESC level or role</label>
+<label for="role">What is your ESC level or role?</label>
 <select id="role">
   <option>GQ</option>
   <option>ESC 1</option>
@@ -173,7 +198,7 @@ footer {
   <option>Pro</option>
 </select>
 
-<label for="tenure">Time at the company</label>
+<label for="tenure">How long have you worked at TaxHawk?</label>
 <select id="tenure">
   <option value="Under 2">Under 2 years</option>
   <option value="2">2 years</option>
@@ -184,10 +209,24 @@ footer {
 </select>
 
 <section class="result" aria-live="polite">
-  <div class="eyebrow">CRYPTO IDENTITY UNLOCKED</div>
+  <div class="eyebrow">₿ CRYPTO IDENTITY UNLOCKED ₿</div>
   <div id="name"></div>
   <div id="persona"></div>
   <div id="description"></div>
+
+  <div class="detail">
+    <div class="detail-title cyan">
+      🔮 YOUR CRYPTO FORTUNE
+    </div>
+    <p id="fortune"></p>
+  </div>
+
+  <div class="detail">
+    <div class="detail-title purple">
+      ⚡ YOUR TAXHAWK SUPERPOWER
+    </div>
+    <p id="superpower"></p>
+  </div>
 </section>
 
 <div class="actions">
@@ -200,30 +239,43 @@ footer {
 </div>
 
 <footer>
-  2026 Boot Camp • Just for fun • Not financial advice
+  TaxHawk Boot Camp 2026 • Just for fun • Not financial advice
 </footer>
 </main>
 
 <script>
+// RANDOM HELPERS
+function random(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function pickDifferent(items, previous) {
+  const available = items.length > 1
+    ? items.filter(item => item !== previous)
+    : items;
+  return random(available);
+}
+
 // FIRST NAMES
 const firstNames = {
   female: [
     "Tiffany", "Brittany", "Ashley", "Jessica",
-    "Madison", "Chloe", "Luna", "Stacy"
+    "Madison", "Chloe", "Luna", "Stacy",
+    "Becky", "Amber", "Crystal", "Kelsey",
+    "Megan", "Sabrina", "Lexi", "Courtney"
   ],
   male: [
     "Chad", "Kyle", "Brock", "Tyler",
-    "Dylan", "Jake", "Logan", "Trevor"
-  ],
-  neutral: [
-    "Satoshi", "Alex", "Riley", "Jordan",
-    "Skyler", "Morgan", "Quinn", "Phoenix"
+    "Dylan", "Jake", "Logan", "Trevor",
+    "Brad", "Brandon", "Hunter", "Zach",
+    "Cody", "Trent", "Blake", "Austin"
   ]
 };
 
-// MIDDLE NAMES BASED ON INVESTMENT OR NFT
+// RANDOM CRYPTO MIDDLE NAMES
+// Independent of the investment selection.
 const cryptoNames = [
-  "FOMO", "Degen",
+  "FOMO", "HODL", "WAGMI", "NGMI", "Degen",
   "Rugpull", "Moonbag", "Diamond", "Paperhands",
   "Laser", "Whale", "Shrimp", "Gas", "Gwei",
   "Satoshi", "Moonboy", "Hopium", "Copium",
@@ -248,6 +300,7 @@ const roleNames = {
   "Pro": "Oracle"
 };
 
+// LAST NAME SUFFIX: TENURE
 const tenureNames = {
   "Under 2": "Moon",
   "2": "HODL",
@@ -258,233 +311,446 @@ const tenureNames = {
 };
 
 // 40 UNIQUE CRYPTO PERSONALITIES
-// Each has a title and a funny description.
 const personalities = [
-  [
-    "The Diamond-Handed Tax Wizard",
-    "Survived three crashes and still asks for cost basis."
+  ["The Diamond-Handed Tax Wizard",
+   "Survived three crashes and still asks for cost basis."],
+  ["The Gas Fee Goblin",
+   "Paid $45 to transfer $7 and called it innovation."],
+  ["The Moon Mission Commander",
+   "Every chart is apparently preparing for liftoff."],
+  ["The Rug Pull Detective",
+   "Trusts nobody, especially a token named SafeMoonAgain."],
+  ["The NFT Museum Curator",
+   "Owns pixel art and calls the collection a gallery."],
+  ["The Spreadsheet Satoshi",
+   "Tracks every satoshi down to eight decimals."],
+  ["The Dip Collector",
+   "Bought the dip, then collected five more dips."],
+  ["The Airdrop Archaeologist",
+   "Checks forgotten wallets for surprise treasure."],
+  ["The Blockchain Bard",
+   "Can turn any transaction into a dramatic story."],
+  ["The Meme Coin Monarch",
+   "Invests based on dog pictures and vibes."],
+  ["The Wallet Whisperer",
+   "Has twelve wallets and remembers two passwords."],
+  ["The Chart Horoscope Reader",
+   "Mercury is retrograde, so Bitcoin must rally."],
+  ["The Stablecoin Sailor",
+   "Loves excitement but prefers a steady peg."],
+  ["The Altcoin Astronaut",
+   "Explores tokens nobody has heard of yet."],
+  ["The Tax Season Survivor",
+   "Can explain Form 8949 while half asleep."],
+  ["The HODL Hermit",
+   "Has not checked a portfolio since 2021."],
+  ["The FOMO Firefighter",
+   "Buys at the top and calls it urgent research."],
+  ["The Cold Wallet Cowboy",
+   "Keeps keys offline and secrets even farther away."],
+  ["The DeFi Dungeon Master",
+   "Knows every protocol and none of the risks."],
+  ["The Staking Sorcerer",
+   "Makes tokens work while they take a nap."],
+  ["The Bitcoin Breakfast Club",
+   "Says good morning to the blockchain."],
+  ["The Paper Hands Pirate",
+   "Abandons ship at the first red candle."],
+  ["The Laser Eyes Legend",
+   "Has been bullish since before breakfast."],
+  ["The Token Treasure Hunter",
+   "Finds obscure coins in mysterious corners."],
+  ["The Crypto Compliance Ninja",
+   "Asks about documentation before the hype."],
+  ["The Liquidity Pool Lifeguard",
+   "Watches the pool for suspicious splashes."],
+  ["The Fork Road Ranger",
+   "Takes every blockchain split personally."],
+  ["The Smart Contract Spellcaster",
+   "Thinks code can fix the office printer."],
+  ["The Satoshi Snack Captain",
+   "Stacks sats and hoards office snacks."],
+  ["The NFT Penguin Wrangler",
+   "Has a digital penguin with a better wardrobe."],
+  ["The Diamond Desk Defender",
+   "Protects their keyboard and their coins."],
+  ["The Bull Run Cheerleader",
+   "Every green candle deserves a parade."],
+  ["The Bear Market Botanist",
+   "Insists portfolios grow better in winter."],
+  ["The Transaction Hash Hunter",
+   "Can find a receipt on any block explorer."],
+  ["The Crypto Karaoke King",
+   "Only sings songs about going to the moon."],
+  ["The Secret Seed Guardian",
+   "Will never type a recovery phrase into chat."],
+  ["The Yield Farming Farmer",
+   "Harvests rewards but forgot the tractor."],
+  ["The Degen Disco Dancer",
+   "Trades by moonlight and dances through volatility."],
+  ["The Tax Form Time Traveler",
+   "Still looking for last year's transaction history."],
+  ["The WAGMI Welcome Committee",
+   "Believes everyone can make it, with good records."]
+];
+
+// FIVE INVESTMENT-SPECIFIC FORTUNES EACH
+const investmentFortunes = {
+  Bitcoin: [
+    "Your Bitcoin will survive three market crashes, two forgotten passwords, and one awkward conversation with your accountant.",
+    "You will HODL so long that your future grandchildren inherit your investment philosophy.",
+    "Your dream retirement plan involves Bitcoin, a beach, and absolutely no spreadsheets.",
+    "You will buy the dip, then discover the dip has a basement.",
+    "One day you will explain Bitcoin at a family dinner and nobody will ask you back."
   ],
-  [
-    "The Gas Fee Goblin",
-    "Paid $45 to transfer $7 and called it innovation."
+  Ethereum: [
+    "You will spend more on gas fees than actual gasoline.",
+    "Your future house will be controlled by smart contracts, including the refrigerator.",
+    "You will own enough ETH to feel important but still complain about transaction fees.",
+    "You will try to explain Ethereum to a relative and accidentally give a two-hour lecture.",
+    "Your next big financial breakthrough will be discovering what all those wallet transactions were."
   ],
-  [
-    "The Moon Mission Commander",
-    "Every chart is apparently preparing for liftoff."
+  Dogecoin: [
+    "A cartoon dog will influence your financial decisions more than your accountant.",
+    "You will become emotionally attached to a cryptocurrency that started as a joke.",
+    "Your investment strategy will be described as 'much wow, very questionable.'",
+    "You will buy Dogecoin because the internet told you it was going to the moon.",
+    "Your portfolio will have more personality than your retirement account."
   ],
-  [
-    "The Rug Pull Detective",
-    "Trusts nobody, especially a token named SafeMoonAgain."
+  Solana: [
+    "You will demand that everything in life move at blockchain speed.",
+    "Your Solana transactions will finish before your coffee gets cold.",
+    "You will describe yourself as a high-performance investor while wearing pajamas.",
+    "You will refresh your portfolio faster than anyone can answer a Teams message.",
+    "Your next big idea will involve Solana, a meme, and an unnecessarily complicated spreadsheet."
   ],
-  [
-    "The NFT Museum Curator",
-    "Owns pixel art and calls the collection a gallery."
+  XRP: [
+    "You will become the office expert on payment networks without anyone asking.",
+    "Your portfolio will move faster than your explanation of why you bought it.",
+    "You will insist that transaction speed is the most exciting dinner conversation.",
+    "You will explain cross-border payments to someone who only wanted lunch.",
+    "Your XRP investment will inspire you to check financial news before brushing your teeth."
   ],
-  [
-    "The Spreadsheet Satoshi",
-    "Tracks every satoshi down to eight decimals."
+  "Shiba Inu": [
+    "Your financial future will depend on the popularity of an internet dog.",
+    "You will accidentally become the proud owner of more dog-themed tokens than actual dogs.",
+    "Your investment thesis will include the phrase 'but look how cute it is.'",
+    "You will defend your favorite memecoin like it is a beloved family pet.",
+    "Your wallet will contain enough Shiba tokens to make the number look impressive."
   ],
-  [
-    "The Dip Collector",
-    "Bought the dip, then collected five more dips."
+  Memecoins: [
+    "Your next investment will be recommended by someone named CryptoToaster420.",
+    "You will buy a token because the logo made you laugh.",
+    "Your portfolio will be 10% strategy and 90% internet culture.",
+    "You will become famous in a group chat for buying the wrong meme at the right time.",
+    "Your investment research will involve more emojis than financial statements."
   ],
-  [
-    "The Airdrop Archaeologist",
-    "Checks forgotten wallets for surprise treasure."
+  Stablecoins: [
+    "You will enter the wild world of crypto and immediately ask for less volatility.",
+    "Your financial superpower will be getting excited about a one-cent price movement.",
+    "You will describe your portfolio as adventurous but responsibly boring.",
+    "Your favorite market trend will be a perfectly horizontal line.",
+    "You will bring a spreadsheet to a crypto party and somehow become the responsible adult."
   ],
-  [
-    "The Blockchain Bard",
-    "Can turn any transaction into a dramatic story."
+  "Bored Ape Yacht Club": [
+    "You will purchase a digital ape and wait patiently for your yacht membership card.",
+    "Your NFT will have a more expensive wardrobe than you.",
+    "You will tell people your ape is rare, even when they say it looks like a cartoon.",
+    "Your future art collection will be measured in pixels and questionable decisions.",
+    "You will spend twenty minutes explaining why two nearly identical apes have different values."
   ],
-  [
-    "The Meme Coin Monarch",
-    "Invests based on dog pictures and vibes."
+  CryptoPunks: [
+    "You will own a tiny pixelated face and call yourself a digital art connoisseur.",
+    "Your NFT will look like it escaped from a 1980s computer.",
+    "You will become extremely passionate about the rarity of digital sunglasses.",
+    "Your collection will have fewer pixels than your phone's calculator.",
+    "You will proudly explain that your digital punk has historical significance."
   ],
-  [
-    "The Wallet Whisperer",
-    "Has twelve wallets and remembers two passwords."
+  "Pudgy Penguins": [
+    "You will own a penguin that costs more than an actual vacation.",
+    "Your financial decisions will be influenced by the cuteness of digital birds.",
+    "You will name your NFT penguin and refer to it as a dependent.",
+    "Your portfolio will be the most adorable financial risk you have ever taken.",
+    "You will tell everyone your penguin is going to the moon, despite its lack of wings."
   ],
-  [
-    "The Chart Horoscope Reader",
-    "Mercury is retrograde, so Bitcoin must rally."
+  Azuki: [
+    "Your investment portfolio will enter its anime hero training arc.",
+    "You will treat every market correction like an important character development episode.",
+    "Your NFT will have a cooler hairstyle than anyone at Boot Camp.",
+    "You will describe your investment journey using dramatic anime terminology.",
+    "Your digital collection will look like it belongs in an epic animated adventure."
   ],
-  [
-    "The Stablecoin Sailor",
-    "Loves excitement but prefers a steady peg."
-  ],
-  [
-    "The Altcoin Astronaut",
-    "Explores tokens nobody has heard of yet."
-  ],
-  [
-    "The Tax Season Survivor",
-    "Can explain Form 8949 while half asleep."
-  ],
-  [
-    "The HODL Hermit",
-    "Has not checked a portfolio since 2021."
-  ],
-  [
-    "The FOMO Firefighter",
-    "Buys at the top and calls it urgent research."
-  ],
-  [
-    "The Cold Wallet Cowboy",
-    "Keeps keys offline and secrets even farther away."
-  ],
-  [
-    "The DeFi Dungeon Master",
-    "Knows every protocol and none of the risks."
-  ],
-  [
-    "The Staking Sorcerer",
-    "Makes tokens work while they take a nap."
-  ],
-  [
-    "The Bitcoin Breakfast Club",
-    "Says good morning to the blockchain."
-  ],
-  [
-    "The Paper Hands Pirate",
-    "Abandons ship at the first red candle."
-  ],
-  [
-    "The Laser Eyes Legend",
-    "Has been bullish since before breakfast."
-  ],
-  [
-    "The Token Treasure Hunter",
-    "Finds obscure coins in mysterious corners."
-  ],
-  [
-    "The Crypto Compliance Ninja",
-    "Asks about documentation before the hype."
-  ],
-  [
-    "The Liquidity Pool Lifeguard",
-    "Watches the pool for suspicious splashes."
-  ],
-  [
-    "The Fork Road Ranger",
-    "Takes every blockchain split personally."
-  ],
-  [
-    "The Smart Contract Spellcaster",
-    "Thinks code can fix the office printer."
-  ],
-  [
-    "The Satoshi Snack Captain",
-    "Stacks sats and hoards office snacks."
-  ],
-  [
-    "The NFT Penguin Wrangler",
-    "Has a digital penguin with a better wardrobe."
-  ],
-  [
-    "The Diamond Desk Defender",
-    "Protects their keyboard and their coins."
-  ],
-  [
-    "The Bull Run Cheerleader",
-    "Every green candle deserves a parade."
-  ],
-  [
-    "The Bear Market Botanist",
-    "Insists portfolios grow better in winter."
-  ],
-  [
-    "The Transaction Hash Hunter",
-    "Can find a receipt on any block explorer."
-  ],
-  [
-    "The Crypto Karaoke King",
-    "Only sings songs about going to the moon."
-  ],
-  [
-    "The Secret Seed Guardian",
-    "Will never type a recovery phrase into chat."
-  ],
-  [
-    "The Yield Farming Farmer",
-    "Harvests rewards but forgot the tractor."
-  ],
-  [
-    "The Degen Disco Dancer",
-    "Trades by moonlight and dances through volatility."
-  ],
-  [
-    "The Tax Form Time Traveler",
-    "Still looking for last year's transaction history."
-  ],
-  [
-    "The WAGMI Welcome Committee",
-    "Believes everyone can make it, with good records."
+  Doodles: [
+    "Your investment strategy will resemble an expensive coloring book.",
+    "You will become a serious collector of very unserious-looking art.",
+    "Your portfolio will contain more pastel colors than your office supplies.",
+    "You will tell your accountant that the doodle is actually an investment.",
+    "Your digital art collection will be cheerful even when the market is not."
   ]
+};
+
+// EXTRA RANDOM FORTUNE TWISTS
+const fortuneTwists = [
+  "Your accountant requests a moment of silence.",
+  "Somewhere, a spreadsheet begins to cry.",
+  "The blockchain remembers everything. Unfortunately, so does the IRS.",
+  "Your future self would like to discuss your cost basis.",
+  "Your financial advisor has left the group chat.",
+  "A mysterious whale approves of your questionable confidence.",
+  "Your wallet has entered its main-character era.",
+  "Your transaction history is preparing a dramatic plot twist.",
+  "A tax professional just felt a disturbance in the force.",
+  "Your portfolio demands a standing ovation.",
+  "The crypto gods recommend keeping better records.",
+  "Your next big purchase may require an explanation on Form 8949.",
+  "Somewhere, a diamond-handed investor nods respectfully.",
+  "Your retirement calculator refuses to comment.",
+  "Your investment strategy has been classified as advanced chaos."
+];
+
+// ROLE-SPECIFIC SUPERPOWERS
+const rolePowers = {
+  "GQ": [
+    "you can navigate unfamiliar tax questions with the determination of a blockchain explorer",
+    "you turn beginner curiosity into surprisingly useful customer answers",
+    "you approach every mysterious tax question like a brand-new crypto treasure hunt",
+    "you are fearless when searching for the answer to a question nobody saw coming",
+    "you can turn a confusing first encounter into a valuable learning moment"
+  ],
+  "ESC 1": [
+    "you can spot a confused customer faster than Bitcoin changes price",
+    "you translate tax jargon into sentences actual humans understand",
+    "you can find the right help article before the customer finishes explaining the problem",
+    "you turn tax-season panic into a manageable checklist",
+    "you have the patience to explain the same concept without sounding like a robot"
+  ],
+  "ESC 2": [
+    "you can untangle complicated customer questions like a blockchain detective",
+    "you identify missing details before they become full-blown support mysteries",
+    "you turn confusing tax calculations into explanations that actually make sense",
+    "you can investigate a stubborn tax issue without losing your sense of humor",
+    "you are the human equivalent of a very organized transaction explorer"
+  ],
+  "ESC 3": [
+    "you can solve tax mysteries that would make a crypto detective resign",
+    "you find the hidden detail everyone else overlooked",
+    "you can navigate complex tax scenarios with legendary patience",
+    "you translate complicated tax rules into explanations worthy of a standing ovation",
+    "you are the final boss of mysterious customer tax questions"
+  ],
+  "Supervisor": [
+    "you can calm crypto chaos while answering three Teams messages simultaneously",
+    "you transform a five-paragraph customer complaint into one understandable sentence",
+    "you can rescue a complicated support situation without spilling your coffee",
+    "you guide your team through tax-season turbulence like a captain through a blockchain storm",
+    "you can identify when a customer needs reassurance, research, or a screenshot"
+  ],
+  "Manager": [
+    "you can coordinate an entire squad of tax superheroes during peak season",
+    "you turn operational chaos into a plan that somehow actually works",
+    "you can see the big picture while everyone else is staring at one transaction",
+    "you keep the tax-season ship moving even when the market and inbox are crashing",
+    "you balance people, priorities, and problems like a master of decentralized operations"
+  ],
+  "Pro": [
+    "you can spot a cost-basis problem from three screens away",
+    "you can explain complicated tax concepts without making anyone cry",
+    "you navigate obscure tax questions like a seasoned blockchain oracle",
+    "you can find the important tax detail buried beneath twenty unrelated facts",
+    "you make difficult tax scenarios look suspiciously easy"
+  ]
+};
+
+// TENURE-SPECIFIC SUPERPOWERS
+const tenurePowers = {
+  "Under 2": [
+    "Your fresh perspective helps you notice things veterans overlook.",
+    "You bring rookie energy and surprisingly powerful research skills.",
+    "Your curiosity is stronger than a Bitcoin bull market.",
+    "You are still collecting experience points and already unlocking achievements.",
+    "You have the enthusiasm of someone who has not yet seen every possible tax-season surprise."
+  ],
+  "2": [
+    "Two years of TaxHawk adventures have sharpened your instincts.",
+    "You've earned enough experience to recognize a suspicious tax question.",
+    "Two years in, you can practically hear a missing form calling your name.",
+    "You've collected two years of tax knowledge and several legendary customer stories.",
+    "Your second-year superpower is knowing which questions need a closer look."
+  ],
+  "3": [
+    "Three years of tax seasons have given you an impressive sixth sense.",
+    "You've developed the ability to predict the next customer question.",
+    "Three years at TaxHawk have upgraded your patience to premium status.",
+    "You have enough tax-season experience to recognize trouble from a single sentence.",
+    "Your three-year streak has unlocked advanced troubleshooting mode."
+  ],
+  "4": [
+    "Four years at TaxHawk have turned your patience into a competitive advantage.",
+    "You've collected four years of knowledge and enough stories to fill a podcast.",
+    "Four years of experience have given you diamond hands for difficult support cases.",
+    "Your four-year superpower is staying calm when everyone else's tabs are multiplying.",
+    "Four years in, you know when to research, escalate, or simply take a coffee break."
+  ],
+  "5": [
+    "Five years at TaxHawk have earned you legendary tax-season endurance.",
+    "You've survived five years of tax changes and still know where to find the answer.",
+    "Your five-year experience badge comes with advanced problem-solving instincts.",
+    "Five years in, you've mastered the art of making complicated things sound simple.",
+    "You've reached five-year whale status in the ocean of tax knowledge."
+  ],
+  "6+": [
+    "With six or more years at TaxHawk, you're practically part of the company blockchain.",
+    "Your institutional knowledge belongs in a museum, preferably with neon lighting.",
+    "Six-plus years have made you a legendary guardian of tax-season wisdom.",
+    "You've seen enough tax scenarios to recognize patterns before they finish loading.",
+    "Your six-plus years of experience have unlocked ancient tax-wizard status."
+  ]
+};
+
+// FUNNY SUPERPOWER FINISHERS
+const superpowerFinishers = [
+  "Your secret weapon is knowing exactly when someone needs a screenshot.",
+  "Even the blockchain would ask you for help.",
+  "Your keyboard deserves its own employee recognition award.",
+  "Your patience has officially achieved diamond-hand status.",
+  "Somewhere, a confused taxpayer is cheering for you.",
+  "Your Teams notification sound is practically your theme music.",
+  "Your troubleshooting skills have been approved by the crypto council.",
+  "Your browser tabs fear your organizational abilities.",
+  "Your tax-season survival rating is off the charts.",
+  "You could probably explain a blockchain to a golden retriever.",
+  "Your support instincts are stronger than a Bitcoin maximalist's opinions.",
+  "Your next achievement badge should be shaped like a tiny tax form.",
+  "You bring order to chaos, one customer question at a time.",
+  "Even Satoshi would be impressed with your documentation.",
+  "Your superpower runs entirely on coffee and determination."
 ];
 
 let previousFirst = "";
 let previousMiddle = "";
 let previousPersonality = -1;
+let previousFortune = "";
+let previousSuperpower = "";
 
-// Pick a random option, avoiding the previous one.
-function pick(items, previous) {
-  const options = items.length > 1
-    ? items.filter(item => item !== previous)
-    : items;
-
-  return options[Math.floor(Math.random() * options.length)];
-}
-
-// GENERATE IDENTITY
+// GENERATE A COMPLETE CRYPTO IDENTITY
 function generate() {
   const gender = document.getElementById("gender").value;
   const investment = document.getElementById("investment").value;
   const role = document.getElementById("role").value;
   const tenure = document.getElementById("tenure").value;
 
-  const first = pick(firstNames[gender], previousFirst);
-  const middle = pick(cryptoNames[investment], previousMiddle);
+  // Random first and middle names.
+  const first = pickDifferent(
+    firstNames[gender], previousFirst
+  );
+  const middle = pickDifferent(
+    cryptoNames, previousMiddle
+  );
 
   previousFirst = first;
   previousMiddle = middle;
 
+  // Last name encodes role and tenure.
   const last = roleNames[role] + tenureNames[tenure];
   const fullName = first + " " + middle + " " + last;
 
-  let id = Math.floor(Math.random() * personalities.length);
+  // Random personality, avoiding immediate repeats.
+  let personalityId = Math.floor(
+    Math.random() * personalities.length
+  );
 
-  // Avoid repeating the same personality immediately.
-  if (id === previousPersonality) {
-    id = (id + 1) % personalities.length;
+  if (personalityId === previousPersonality) {
+    personalityId =
+      (personalityId + 1) % personalities.length;
   }
 
-  previousPersonality = id;
+  previousPersonality = personalityId;
 
-  document.getElementById("name").textContent = fullName;
+  // Investment-specific fortune with random twist.
+  let fortune = "";
+  let fortuneAttempts = 0;
+
+  do {
+    fortune =
+      random(investmentFortunes[investment]) + " " +
+      random(fortuneTwists);
+    fortuneAttempts++;
+  } while (
+    fortune === previousFortune &&
+    fortuneAttempts < 10
+  );
+
+  previousFortune = fortune;
+
+  // TaxHawk superpower combines role and tenure.
+  const roleLabel = role;
+  const tenureLabel = tenure === "Under 2"
+    ? "less than 2 years"
+    : tenure === "6+"
+      ? "6 or more years"
+      : tenure + " years";
+
+  let superpower = "";
+  let superpowerAttempts = 0;
+
+  do {
+    superpower =
+      "As a " + roleLabel + " with " +
+      tenureLabel + " at TaxHawk, " +
+      random(rolePowers[role]) + ". " +
+      random(tenurePowers[tenure]) + " " +
+      random(superpowerFinishers);
+
+    superpowerAttempts++;
+  } while (
+    superpower === previousSuperpower &&
+    superpowerAttempts < 10
+  );
+
+  previousSuperpower = superpower;
+
+  // Display the completed identity.
+  document.getElementById("name").textContent =
+    fullName;
+
   document.getElementById("persona").textContent =
-    personalities[id][0];
+    personalities[personalityId][0];
+
   document.getElementById("description").textContent =
-    '"' + personalities[id][1] + '"';
+    '"' + personalities[personalityId][1] + '"';
+
+  document.getElementById("fortune").textContent =
+    fortune;
+
+  document.getElementById("superpower").textContent =
+    superpower;
 }
 
-// COPY NAME AND PERSONALITY
+// COPY THE ENTIRE IDENTITY INTO TEAMS
 async function copyIdentity() {
-  const name = document.getElementById("name").textContent;
-  const persona = document.getElementById("persona").textContent;
-  const description =
-    document.getElementById("description").textContent;
-
-  const identity = name + "\n" + persona + "\n" + description;
+  const identity = [
+    "₿ MY CRYPTOBRO IDENTITY ₿",
+    "",
+    document.getElementById("name").textContent,
+    document.getElementById("persona").textContent,
+    document.getElementById("description").textContent,
+    "",
+    "🔮 MY CRYPTO FORTUNE",
+    document.getElementById("fortune").textContent,
+    "",
+    "⚡ MY TAXHAWK SUPERPOWER",
+    document.getElementById("superpower").textContent
+  ].join("\n");
 
   try {
     await navigator.clipboard.writeText(identity);
-    alert("Crypto identity copied!");
+    alert("Crypto identity copied! Paste it into Teams.");
   } catch (error) {
-    window.prompt("Copy your crypto identity:", identity);
+    window.prompt("Copy your identity:", identity);
   }
 }
 
-// Generate a name when the page opens.
+// Generate the first identity when the page opens.
 generate();
 </script>
 </body>
