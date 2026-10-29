@@ -82,17 +82,22 @@ button {
   background:#304766;
   color:white;
 }
-.buttons {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.copy-area {
   margin-top:20px;
 }
+.copy-area button {
+  width:100%;
+}
 button:hover { filter:brightness(1.09); }
-button:focus-visible { outline:3px solid white; outline-offset:3px; }
-button:disabled { opacity:.55; cursor:not-allowed; }
+button:focus-visible {
+  outline:3px solid white;
+  outline-offset:3px;
+}
 #result { display:none; }
-.result-header { text-align:center; margin-bottom:22px; }
+.result-header {
+  text-align:center;
+  margin-bottom:22px;
+}
 .eyebrow {
   font-size:12px;
   font-weight:800;
@@ -122,16 +127,36 @@ button:disabled { opacity:.55; cursor:not-allowed; }
 .profession {
   font-size:22px;
   font-weight:850;
-  margin:5px 0 10px;
+  margin:5px 0 8px;
 }
-.detail { margin:8px 0; line-height:1.55; }
-.small { color:var(--muted); font-size:13px; line-height:1.6; }
-.quote { font-style:italic; font-size:17px; line-height:1.55; }
-.superline { font-weight:800; margin:6px 0; }
-.challenge {
-  border-left:3px solid var(--gold);
-  padding-left:12px;
-  margin-top:12px;
+.detail {
+  margin:8px 0;
+  line-height:1.55;
+}
+.small {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+.tax-note {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:5px;
+}
+.tax-details {
+  margin-top:11px;
+  padding-top:10px;
+  border-top:1px solid #34455e;
+}
+.quote {
+  font-style:italic;
+  font-size:17px;
+  line-height:1.55;
+}
+.superline {
+  font-weight:800;
+  margin:6px 0;
 }
 #notice {
   text-align:center;
@@ -147,11 +172,12 @@ footer {
   line-height:1.7;
 }
 @media(max-width:540px) {
-  .two,.buttons { grid-template-columns:1fr; }
+  .two { grid-template-columns:1fr; }
   .panel { padding:18px; }
 }
 </style>
 </head>
+
 <body>
 <div class="container">
 
@@ -165,11 +191,14 @@ footer {
 </header>
 
 <div class="panel">
+
   <label for="firstName">😎 What's your first name?</label>
   <input id="firstName" maxlength="32"
     placeholder="Enter your first name" autocomplete="given-name">
 
-  <label for="crypto">🪙 Which crypto would you YOLO your imaginary savings into?</label>
+  <label for="crypto">
+    🪙 Which crypto would you YOLO your imaginary savings into?
+  </label>
   <select id="crypto">
     <option value="bitcoin">Bitcoin (BTC)</option>
     <option value="ethereum">Ethereum (ETH)</option>
@@ -198,6 +227,7 @@ footer {
         <option value="pro">Pro</option>
       </select>
     </div>
+
     <div>
       <label for="years">📅 Years at TaxHawk?</label>
       <select id="years">
@@ -221,21 +251,29 @@ footer {
 </div>
 
 <div class="panel" id="result" aria-live="polite">
+
   <div class="result-header">
     <div class="eyebrow">OFFICIAL CRYPTOBRO IDENTITY</div>
     <div class="name" id="displayName"></div>
-    <div class="small">Certified CryptoBro. Uncertified financial genius.</div>
+    <div class="small">
+      Certified CryptoBro. Uncertified financial genius.
+    </div>
   </div>
 
   <div class="section">
     <div class="section-title">⛏️ CRYPTO PROFESSION</div>
     <div class="profession" id="displayProfession"></div>
     <div class="detail" id="displayActivity"></div>
-    <div class="detail">📬 <strong>Possible form received:</strong>
-      <span id="displayReceived"></span>
-    </div>
-    <div class="detail">🧾 <strong>Generally reported on:</strong>
-      <span id="displayReporting"></span>
+
+    <div class="tax-details">
+      <div class="tax-note">
+        📬 Possible form:
+        <span id="displayReceived"></span>
+      </div>
+      <div class="tax-note">
+        🧾 Tax reporting:
+        <span id="displayReporting"></span>
+      </div>
     </div>
   </div>
 
@@ -250,33 +288,22 @@ footer {
     <div class="quote" id="displaySuperpower"></div>
   </div>
 
-  <div class="section">
-    <div class="section-title">🧩 YOUR CRYPTO TAX CHALLENGE</div>
-    <div class="detail challenge" id="displayChallenge"></div>
-    <p class="small">
-      Practice prompt only. The actual reporting depends on
-      the customer's facts and the applicable tax year.
-    </p>
+  <div class="copy-area">
+    <button class="secondary" id="copyIdentity" type="button">
+      📋 Copy My CryptoBro Identity for Teams
+    </button>
   </div>
 
-  <div class="buttons">
-    <button class="secondary" id="copyIdentity" type="button">
-      📋 Copy Identity for Teams
-    </button>
-    <button class="secondary" id="copyChallenge" type="button">
-      🧩 Copy Practice Scenario
-    </button>
-  </div>
   <button class="primary" id="reroll" type="button">
     🎲 Reroll My CryptoBro
   </button>
+
   <div id="notice" role="status"></div>
 </div>
 
 <footer>
   Certified by the Totally Unofficial Blockchain Bro Academy.<br>
-  All identities and professions are fictional. Tax guidance is
-  educational and not a substitute for reviewing the facts.
+  Fictional identities. Real tax concepts. No actual investing required.
 </footer>
 
 </div>
@@ -284,10 +311,7 @@ footer {
 <script>
 "use strict";
 
-/* -------------------------------------------------
-   1. COIN-INSPIRED MIDDLE NAMES
-   Each coin has a variety of recognizable crypto names.
-------------------------------------------------- */
+/* COIN-INSPIRED MIDDLE NAMES */
 
 const middleNames = {
   bitcoin: [
@@ -352,14 +376,7 @@ const middleNames = {
   ]
 };
 
-/* -------------------------------------------------
-   2. EXPERIENCE-BASED SURNAMES
-
-   Role chooses the surname family.
-   Tenure chooses a surname within that family.
-   Random variants prevent identical results.
-   All surnames remain single, pronounceable words.
-------------------------------------------------- */
+/* SURNAMES BASED ON ROLE AND TENURE */
 
 const surnameFamilies = {
   gq: [
@@ -435,22 +452,14 @@ const yearLabels = {
   "10plus":"10+ years"
 };
 
-/* -------------------------------------------------
-   3. PROFESSION CATEGORIES
-
-   Each category contains six fictional profession
-   titles, creating 84 titles in 14 categories.
-
-   Higher weight = more likely to be selected.
-
-   Forms received are POSSIBLE, not guaranteed.
-------------------------------------------------- */
+/* CRYPTO PROFESSIONS
+   84 titles across 14 scenario categories.
+   Higher weights make common scenarios more likely.
+*/
 
 const professions = [
-
   {
-    id:"sales",
-    weight:18,
+    id:"sales",weight:18,
     titles:[
       "Diamond Hands Day Trader",
       "Midnight Bitcoin Flipper",
@@ -460,14 +469,12 @@ const professions = [
       "Blockchain Swing Trader"
     ],
     activity:"Buys and sells cryptocurrency for personal investment.",
-    received:"Form 1099-DA or, in some situations, Form 1099-B; possibly no form.",
+    received:"1099-DA, 1099-B, or possibly no form.",
     reporting:"Generally Form 8949 and Schedule D.",
-    challenge:"You bought crypto for $1,200 and later sold it for $1,650. Determine the gain, holding period, and information needed to report the sale."
+    challenge:"Bought crypto for $1,200 and sold it for $1,650. Determine the gain and holding period."
   },
-
   {
-    id:"swap",
-    weight:11,
+    id:"swap",weight:11,
     titles:[
       "Token Swap Specialist",
       "Altcoin Exchange Artist",
@@ -477,14 +484,12 @@ const professions = [
       "Digital Asset Swapmaster"
     ],
     activity:"Trades one cryptocurrency for another.",
-    received:"Possibly Form 1099-DA or no information return.",
+    received:"Possibly 1099-DA or no form.",
     reporting:"Generally Form 8949 and Schedule D for investment holdings.",
-    challenge:"You exchange Bitcoin worth $900 for Ethereum. Your Bitcoin basis is $600. Identify the disposition and the basis of the Ethereum received."
+    challenge:"Exchanged Bitcoin worth $900 for Ethereum. Bitcoin basis was $600."
   },
-
   {
-    id:"staking",
-    weight:15,
+    id:"staking",weight:15,
     titles:[
       "Galactic Staking Guru",
       "Proof-of-Stake Superstar",
@@ -493,15 +498,13 @@ const professions = [
       "Passive Rewards Collector",
       "Blockchain Staking Baron"
     ],
-    activity:"Receives cryptocurrency staking rewards outside a trade or business.",
-    received:"Possibly Form 1099-MISC, commonly box 3, or no form.",
-    reporting:"Generally Schedule 1, line 8v, for nonbusiness staking rewards.",
-    challenge:"You receive staking rewards worth $420 when you gain control of them. Explain the income reporting and what establishes their basis for a future sale."
+    activity:"Earns cryptocurrency through nonbusiness staking.",
+    received:"Possibly 1099-MISC, commonly box 3, or no form.",
+    reporting:"Generally Schedule 1, line 8v.",
+    challenge:"Received staking rewards worth $420 when control was obtained."
   },
-
   {
-    id:"miningBusiness",
-    weight:10,
+    id:"miningBusiness",weight:10,
     titles:[
       "Midnight Bitcoin Miner",
       "Industrial Hashrate Hero",
@@ -510,15 +513,13 @@ const professions = [
       "Digital Gold Prospector",
       "Professional Block Miner"
     ],
-    activity:"Operates a cryptocurrency mining trade or business.",
-    received:"May receive an information return, such as Form 1099-MISC, or no form.",
-    reporting:"Generally Schedule C and, when applicable, Schedule SE.",
-    challenge:"Your mining business earns $3,500 of cryptocurrency and has $900 of qualifying business expenses. Identify the income, potential deductions, and business tax forms."
+    activity:"Operates a cryptocurrency mining business.",
+    received:"Possibly 1099-MISC or no form.",
+    reporting:"Generally Schedule C and possibly Schedule SE.",
+    challenge:"Mining business earns $3,500 in crypto and has $900 of qualifying expenses."
   },
-
   {
-    id:"freelance",
-    weight:10,
+    id:"freelance",weight:10,
     titles:[
       "Dogecoin Design Freelancer",
       "Bitcoin Coding Contractor",
@@ -527,15 +528,13 @@ const professions = [
       "Blockchain Website Builder",
       "Digital Token Consultant"
     ],
-    activity:"Performs independent-contractor services and is paid in cryptocurrency.",
-    received:"Possibly Form 1099-NEC; a form is not guaranteed.",
-    reporting:"Generally Schedule C and, when applicable, Schedule SE.",
-    challenge:"A freelance designer receives crypto worth $1,800 for a project. Determine the amount of business revenue and the basis of the crypto received."
+    activity:"Performs freelance services and receives cryptocurrency as payment.",
+    received:"Possibly 1099-NEC or no form.",
+    reporting:"Generally Schedule C and possibly Schedule SE.",
+    challenge:"A designer receives $1,800 of crypto for freelance work."
   },
-
   {
-    id:"wages",
-    weight:8,
+    id:"wages",weight:8,
     titles:[
       "Bitcoin Salary Superstar",
       "Blockchain Payroll Wizard",
@@ -544,15 +543,13 @@ const professions = [
       "Digital Payday Professional",
       "Tokenized Office Employee"
     ],
-    activity:"Works as an employee and receives wages paid in cryptocurrency.",
-    received:"Form W-2 for U.S. employee wages.",
-    reporting:"Generally Form 1040 wages, based on the W-2.",
-    challenge:"Your employer pays you $2,000 worth of Bitcoin as wages. Explain how the compensation is reported and what basis you have in the Bitcoin."
+    activity:"Receives employee wages paid in cryptocurrency.",
+    received:"W-2.",
+    reporting:"Form 1040 wages.",
+    challenge:"An employer pays $2,000 worth of Bitcoin as wages."
   },
-
   {
-    id:"airdrops",
-    weight:7,
+    id:"airdrops",weight:7,
     titles:[
       "Airdrop Treasure Hunter",
       "Free Token Explorer",
@@ -561,15 +558,13 @@ const professions = [
       "Surprise Coin Recipient",
       "Digital Airdrop Adventurer"
     ],
-    activity:"Receives taxable cryptocurrency through an airdrop or promotional distribution.",
-    received:"Possibly Form 1099-MISC or no form.",
-    reporting:"Generally Schedule 1, line 8z, if taxable and not business income.",
-    challenge:"You receive an airdrop worth $275 and can immediately control the tokens. Determine whether there is income and what establishes the basis."
+    activity:"Receives taxable cryptocurrency through an airdrop.",
+    received:"Possibly 1099-MISC or no form.",
+    reporting:"Generally Schedule 1, line 8z, if nonbusiness income.",
+    challenge:"An airdrop worth $275 becomes available and controllable."
   },
-
   {
-    id:"rewards",
-    weight:6,
+    id:"rewards",weight:6,
     titles:[
       "Crypto Referral Royalty",
       "Exchange Bonus Hunter",
@@ -578,15 +573,13 @@ const professions = [
       "Coin Signup Superstar",
       "Blockchain Loyalty Legend"
     ],
-    activity:"Receives taxable crypto bonuses or promotional rewards.",
-    received:"Possibly Form 1099-MISC or no form.",
-    reporting:"Generally Schedule 1, line 8z, for nonbusiness miscellaneous rewards; facts may differ.",
-    challenge:"An exchange gives you a $75 crypto signup bonus for completing a promotional requirement. Determine the possible income reporting and basis."
+    activity:"Receives taxable cryptocurrency promotional bonuses.",
+    received:"Possibly 1099-MISC or no form.",
+    reporting:"Generally Schedule 1, line 8z, if nonbusiness income.",
+    challenge:"An exchange awards a $75 crypto signup bonus."
   },
-
   {
-    id:"payments",
-    weight:4,
+    id:"payments",weight:4,
     titles:[
       "Crypto Coffee Shop Owner",
       "Bitcoin Boutique Merchant",
@@ -595,15 +588,13 @@ const professions = [
       "Digital Currency Shopkeeper",
       "Token-Taking Entrepreneur"
     ],
-    activity:"Runs a business that accepts cryptocurrency as customer payment.",
-    received:"Business records; possibly Form 1099-K or another information return depending on the payment arrangement.",
-    reporting:"Generally Schedule C for a sole proprietorship; later crypto dispositions may create additional gain or loss.",
-    challenge:"A customer pays your business $150 worth of Bitcoin for a service. Determine the business revenue and initial basis in the Bitcoin."
+    activity:"Runs a business accepting cryptocurrency as payment.",
+    received:"Business records; possibly 1099-K depending on the payment arrangement.",
+    reporting:"Generally Schedule C for a sole proprietorship.",
+    challenge:"A customer pays $150 worth of Bitcoin for a service."
   },
-
   {
-    id:"hobbyMining",
-    weight:3,
+    id:"hobbyMining",weight:3,
     titles:[
       "Basement Hash Hobbyist",
       "Weekend Bitcoin Miner",
@@ -612,15 +603,13 @@ const professions = [
       "Casual Coin Prospector",
       "Hobby Hashrate Hero"
     ],
-    activity:"Mines cryptocurrency occasionally without operating a trade or business.",
+    activity:"Mines cryptocurrency occasionally outside a business.",
     received:"Often no information return.",
-    reporting:"Generally Schedule 1, line 8z, for nonbusiness mining income.",
-    challenge:"You mine $95 worth of crypto as a hobby. Identify the income event and explain why business deductions and self-employment tax require a separate business analysis."
+    reporting:"Generally Schedule 1, line 8z.",
+    challenge:"Earned $95 of crypto through hobby mining."
   },
-
   {
-    id:"nft",
-    weight:3,
+    id:"nft",weight:3,
     titles:[
       "Pixelated NFT Flipper",
       "Digital Art Collector",
@@ -630,14 +619,12 @@ const professions = [
       "Blockchain Art Dealer"
     ],
     activity:"Buys and sells NFTs held as personal investments.",
-    received:"Possibly Form 1099-DA or no form, depending on the transaction and reporting rules.",
-    reporting:"Generally Form 8949 and Schedule D for investment sales; special rules can apply.",
-    challenge:"You buy an NFT for $400 and sell it for $650. Determine the gain and what facts could change the tax treatment."
+    received:"Possibly 1099-DA or no form.",
+    reporting:"Often Form 8949 and Schedule D; special rules may apply.",
+    challenge:"Bought an NFT for $400 and sold it for $650."
   },
-
   {
-    id:"gifts",
-    weight:2,
+    id:"gifts",weight:2,
     titles:[
       "Birthday Bitcoin Collector",
       "Crypto Gift Recipient",
@@ -647,14 +634,12 @@ const professions = [
       "Digital Gift Guardian"
     ],
     activity:"Receives cryptocurrency as a genuine personal gift.",
-    received:"Generally no income information return simply for receiving the gift.",
-    reporting:"Generally no income on receipt; a later disposition may require Form 8949 and Schedule D.",
-    challenge:"A relative gifts you Bitcoin currently worth $700. What basis records should you request before eventually selling it?"
+    received:"Generally no income information return for receiving the gift.",
+    reporting:"Generally no income on receipt; later sales may be reportable.",
+    challenge:"A relative gifts Bitcoin currently worth $700."
   },
-
   {
-    id:"transfers",
-    weight:2,
+    id:"transfers",weight:2,
     titles:[
       "Personal Wallet Wanderer",
       "Cold Storage Commander",
@@ -663,15 +648,13 @@ const professions = [
       "Blockchain Transfer Traveler",
       "Digital Vault Keeper"
     ],
-    activity:"Moves cryptocurrency between wallets they personally own.",
-    received:"Generally no income information return solely for a self-transfer.",
-    reporting:"Generally no taxable sale from a transfer between your own wallets; retain basis and transaction records.",
-    challenge:"You move $2,000 worth of Bitcoin from an exchange to your own hardware wallet. Determine whether a sale occurred and which records should be preserved."
+    activity:"Transfers cryptocurrency between personally owned wallets.",
+    received:"Generally no income information return solely for the transfer.",
+    reporting:"Generally no taxable sale from a self-transfer.",
+    challenge:"Moves $2,000 of Bitcoin from an exchange to a personal wallet."
   },
-
   {
-    id:"defi",
-    weight:1,
+    id:"defi",weight:1,
     titles:[
       "DeFi Yield Explorer",
       "Liquidity Pool Adventurer",
@@ -681,16 +664,13 @@ const professions = [
       "Digital Yield Alchemist"
     ],
     activity:"Participates in decentralized finance lending or liquidity arrangements.",
-    received:"Depends on the arrangement; possibly Form 1099-MISC, Form 1099-INT, or no form.",
-    reporting:"Depends on the legal and economic nature of the transactions; may involve ordinary income and dispositions.",
-    challenge:"You deposit tokens into a DeFi protocol and receive additional tokens as rewards. Identify the records needed before determining income, basis, and whether any disposition occurred."
+    received:"Depends on arrangement; possibly 1099-MISC, 1099-INT, or no form.",
+    reporting:"Depends on the arrangement; income and dispositions may both occur.",
+    challenge:"Deposits tokens into a DeFi protocol and earns additional tokens."
   }
-
 ];
 
-/* -------------------------------------------------
-   4. INVESTOR PERSONALITIES
-------------------------------------------------- */
+/* INVESTOR PERSONALITIES */
 
 const personalities = [
   "Has 47 crypto wallets and remembers zero passwords.",
@@ -755,9 +735,7 @@ const personalities = [
   "Calls every failed investment a learning opportunity."
 ];
 
-/* -------------------------------------------------
-   5. SHORT TAXHAWK SUPERPOWERS
-------------------------------------------------- */
+/* SHORT TAXHAWK SUPERPOWERS */
 
 const generalPowers = [
   "Finds missing forms at lightning speed.",
@@ -831,25 +809,23 @@ const rolePowers = {
   ]
 };
 
-/* -------------------------------------------------
-   6. RANDOMIZATION AND UTILITIES
-------------------------------------------------- */
+/* RANDOMIZATION */
 
 const $ = id => document.getElementById(id);
 
 function randomInt(max) {
   if (window.crypto && window.crypto.getRandomValues) {
-    const values = new Uint32Array(1);
-    const range = 4294967296;
-    const limit = range - (range % max);
+    const values=new Uint32Array(1);
+    const range=4294967296;
+    const limit=range-(range%max);
     let n;
     do {
       window.crypto.getRandomValues(values);
-      n = values[0];
-    } while (n >= limit);
-    return n % max;
+      n=values[0];
+    } while(n>=limit);
+    return n%max;
   }
-  return Math.floor(Math.random() * max);
+  return Math.floor(Math.random()*max);
 }
 
 function pick(list) {
@@ -857,55 +833,53 @@ function pick(list) {
 }
 
 function weightedProfession() {
-  const total = professions.reduce((sum,p) => sum+p.weight,0);
-  let roll = randomInt(total);
-  for (const p of professions) {
-    if (roll < p.weight) return p;
-    roll -= p.weight;
+  const total=professions.reduce((sum,p)=>sum+p.weight,0);
+  let roll=randomInt(total);
+
+  for(const p of professions) {
+    if(roll<p.weight) return p;
+    roll-=p.weight;
   }
   return professions[0];
 }
 
 function getSurname(role,years) {
-  const list = surnameFamilies[role];
-  const offset = tenureOffsets[years];
-  const variation = randomInt(3);
-  return list[(offset+variation) % list.length];
+  const list=surnameFamilies[role];
+  const offset=tenureOffsets[years];
+  const variation=randomInt(3);
+  return list[(offset+variation)%list.length];
 }
 
 function getSuperpower(role) {
-  const pool = [...generalPowers,...rolePowers[role]];
-  return pick(pool);
+  return pick([...generalPowers,...rolePowers[role]]);
 }
 
 function cleanName(value) {
   return value.trim().replace(/\s+/g," ").slice(0,32);
 }
 
-let current = null;
-let previous = null;
+let current=null;
 
 function generateIdentity() {
-  const first = cleanName($("firstName").value);
-  if (!first) {
+  const first=cleanName($("firstName").value);
+
+  if(!first) {
     alert("Enter your first name to meet your CryptoBro!");
     $("firstName").focus();
     return;
   }
 
-  const coin = $("crypto").value;
-  const role = $("role").value;
-  const years = $("years").value;
+  const coin=$("crypto").value;
+  const role=$("role").value;
+  const years=$("years").value;
 
   let candidate;
 
-  for (let attempt=0;attempt<12;attempt++) {
-    const middle = pick(middleNames[coin]);
-    const surname = getSurname(role,years);
-    const professionGroup = weightedProfession();
+  for(let attempt=0;attempt<15;attempt++) {
+    const professionGroup=weightedProfession();
 
-    candidate = {
-      name:first+" "+middle+" "+surname,
+    candidate={
+      name:first+" "+pick(middleNames[coin])+" "+getSurname(role,years),
       profession:pick(professionGroup.titles),
       activity:professionGroup.activity,
       received:professionGroup.received,
@@ -913,19 +887,17 @@ function generateIdentity() {
       challenge:professionGroup.challenge,
       personality:pick(personalities),
       experience:roleLabels[role]+" · "+yearLabels[years]+" at TaxHawk",
-      superpower:getSuperpower(role),
-      category:professionGroup.id
+      superpower:getSuperpower(role)
     };
 
-    if (!previous ||
-        candidate.name!==previous.name &&
-        candidate.profession!==previous.profession &&
-        candidate.personality!==previous.personality) {
+    if(!current ||
+      (candidate.name!==current.name &&
+       candidate.profession!==current.profession &&
+       candidate.personality!==current.personality)) {
       break;
     }
   }
 
-  previous=current;
   current=candidate;
   showIdentity(candidate);
 }
@@ -939,15 +911,13 @@ function showIdentity(c) {
   $("displayPersonality").textContent='"'+c.personality+'"';
   $("displayExperience").textContent=c.experience;
   $("displaySuperpower").textContent='"'+c.superpower+'"';
-  $("displayChallenge").textContent=c.challenge;
+
   $("notice").textContent="";
   $("result").style.display="block";
   $("result").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-/* -------------------------------------------------
-   7. TEAMS-FRIENDLY COPY FORMAT
-------------------------------------------------- */
+/* TEAMS COPY FORMAT */
 
 function identityText(c) {
   return [
@@ -957,43 +927,21 @@ function identityText(c) {
     "⛏️ CRYPTO PROFESSION",
     c.profession,
     c.activity,
-    "",
-    "📬 POSSIBLE FORM RECEIVED",
-    c.received,
-    "",
-    "🧾 GENERALLY REPORTED ON",
-    c.reporting,
+    "📬 Possible form: "+c.received,
+    "🧾 Tax reporting: "+c.reporting,
     "",
     "🎭 INVESTOR PERSONALITY",
     c.personality,
     "",
     "⚡ TAXHAWK SUPERPOWER",
     c.experience,
-    c.superpower,
-    "",
-    "🧩 MY CRYPTO TAX CHALLENGE",
-    c.challenge
-  ].join("\n");
-}
-
-function challengeText(c) {
-  return [
-    "🧩 CRYPTOBRO TAX CHALLENGE",
-    "",
-    "😎 "+c.name,
-    "⛏️ Profession: "+c.profession,
-    "",
-    "SCENARIO",
-    c.challenge,
-    "",
-    "📬 Possible form: "+c.received,
-    "🧾 General reporting: "+c.reporting
+    c.superpower
   ].join("\n");
 }
 
 async function copyText(text) {
   try {
-    if (navigator.clipboard && window.isSecureContext) {
+    if(navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(text);
     } else {
       const box=document.createElement("textarea");
@@ -1005,32 +953,26 @@ async function copyText(text) {
       box.select();
       const ok=document.execCommand("copy");
       document.body.removeChild(box);
-      if (!ok) throw new Error("Copy not supported");
+      if(!ok) throw new Error("Copy not supported");
     }
     $("notice").textContent="✅ Copied! Paste it into Teams.";
   } catch(error) {
-    $("notice").textContent="Copy unavailable. Select and copy the text manually.";
+    $("notice").textContent="Copy unavailable. Copy the text manually.";
     window.prompt("Copy this text:",text);
   }
 }
 
-/* -------------------------------------------------
-   8. BUTTONS
-------------------------------------------------- */
+/* BUTTONS */
 
 $("generate").addEventListener("click",generateIdentity);
 $("reroll").addEventListener("click",generateIdentity);
 
 $("copyIdentity").addEventListener("click",function(){
-  if (current) copyText(identityText(current));
-});
-
-$("copyChallenge").addEventListener("click",function(){
-  if (current) copyText(challengeText(current));
+  if(current) copyText(identityText(current));
 });
 
 $("firstName").addEventListener("keydown",function(event){
-  if (event.key==="Enter") generateIdentity();
+  if(event.key==="Enter") generateIdentity();
 });
 
 </script>
