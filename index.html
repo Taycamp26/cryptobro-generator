@@ -4,778 +4,1035 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CryptoBro Name Generator</title>
+<title>CryptoBro Identity Lab</title>
 <style>
-* { box-sizing: border-box; }
-
+:root {
+  --bg:#0b1220;
+  --panel:#162238;
+  --panel2:#1d2d47;
+  --gold:#facc15;
+  --text:#f8fafc;
+  --muted:#b7c5d9;
+  --border:#34455e;
+}
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  min-height: 100vh;
-  padding: 26px 14px;
-  background: radial-gradient(circle at top, #38216e, #10152d 70%);
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  margin:0;
+  padding:25px 14px 60px;
+  background:radial-gradient(circle at top,#1e3353,#0b1220 65%);
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
 }
-
-main {
-  max-width: 660px;
-  margin: auto;
-  padding: 28px;
-  background: #171d3a;
-  border: 2px solid #8058f1;
-  border-radius: 24px;
-  box-shadow: 0 0 40px #8e4cf044;
-}
-
+.container { max-width:790px; margin:auto; }
+header { text-align:center; margin:15px 0 28px; }
+header .coin { font-size:54px; }
 h1 {
-  text-align: center;
-  color: #4ce9f7;
-  margin: 0 0 8px;
+  color:var(--gold);
+  font-size:clamp(29px,6vw,43px);
+  margin:8px 0;
+  letter-spacing:1px;
 }
-
-.subtitle {
-  text-align: center;
-  color: #c6bde8;
-  line-height: 1.5;
+.subtitle { color:var(--muted); line-height:1.6; }
+.panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:19px;
+  padding:24px;
+  margin-bottom:20px;
+  box-shadow:0 12px 35px #0003;
 }
-
 label {
-  display: block;
-  margin: 17px 0 7px;
-  font-weight: bold;
+  display:block;
+  font-weight:700;
+  margin:17px 0 8px;
 }
-
-select {
-  width: 100%;
-  padding: 13px;
-  background: #293052;
-  color: white;
-  border: 1px solid #8b7db9;
-  border-radius: 9px;
-  font-size: 16px;
+input,select {
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #52637c;
+  background:#0d192b;
+  color:white;
+  font:inherit;
 }
-
-.result {
-  margin-top: 25px;
-  padding: 24px 17px;
-  text-align: center;
-  border: 2px solid #37e4f4;
-  background: #0d122a;
-  border-radius: 16px;
+input:focus,select:focus {
+  outline:2px solid var(--gold);
+  outline-offset:2px;
 }
-
-.eyebrow {
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  color: #bda6ff;
-  font-weight: bold;
+.two {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
 }
-
-#name {
-  font-size: clamp(24px, 5vw, 35px);
-  font-weight: 900;
-  margin: 16px 0;
-  overflow-wrap: anywhere;
-}
-
-#persona {
-  font-size: 21px;
-  font-weight: bold;
-  color: #52e5ef;
-  margin: 12px 0;
-}
-
-#description {
-  color: #e1dcfa;
-  line-height: 1.6;
-}
-
-.detail {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid #343c63;
-}
-
-.detail-title {
-  font-weight: bold;
-  font-size: 14px;
-  letter-spacing: 0.7px;
-  margin-bottom: 10px;
-}
-
-.cyan { color: #52e5ef; }
-.purple { color: #c3a6ff; }
-
-.detail p {
-  margin: 0;
-  line-height: 1.65;
-  color: #e5e1f5;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 18px;
-}
-
 button {
-  flex: 1;
-  padding: 14px;
-  border: 0;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+  border-radius:11px;
+  padding:14px 18px;
+  border:0;
 }
-
-button:hover { filter: brightness(1.12); }
-
 .primary {
-  background: #48dce8;
-  color: #0a1630;
+  width:100%;
+  margin-top:23px;
+  background:var(--gold);
+  color:#101827;
 }
-
 .secondary {
-  background: #a878ff;
-  color: #10152d;
+  background:#304766;
+  color:white;
 }
-
+.buttons {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
+}
+button:hover { filter:brightness(1.09); }
+button:focus-visible { outline:3px solid white; outline-offset:3px; }
+button:disabled { opacity:.55; cursor:not-allowed; }
+#result { display:none; }
+.result-header { text-align:center; margin-bottom:22px; }
+.eyebrow {
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:var(--muted);
+}
+.name {
+  color:var(--gold);
+  font-size:clamp(25px,5vw,37px);
+  font-weight:900;
+  line-height:1.2;
+  overflow-wrap:anywhere;
+  margin:12px 0;
+}
+.section {
+  background:var(--panel2);
+  padding:18px;
+  border-radius:13px;
+  margin-top:13px;
+}
+.section-title {
+  color:var(--gold);
+  font-weight:850;
+  font-size:15px;
+  margin-bottom:9px;
+}
+.profession {
+  font-size:22px;
+  font-weight:850;
+  margin:5px 0 10px;
+}
+.detail { margin:8px 0; line-height:1.55; }
+.small { color:var(--muted); font-size:13px; line-height:1.6; }
+.quote { font-style:italic; font-size:17px; line-height:1.55; }
+.superline { font-weight:800; margin:6px 0; }
+.challenge {
+  border-left:3px solid var(--gold);
+  padding-left:12px;
+  margin-top:12px;
+}
+#notice {
+  text-align:center;
+  color:var(--gold);
+  min-height:22px;
+  margin-top:12px;
+}
 footer {
-  text-align: center;
-  color: #b5afd0;
-  font-size: 12px;
-  margin-top: 20px;
-  line-height: 1.5;
+  text-align:center;
+  font-size:12px;
+  color:#a9b9cf;
+  margin-top:25px;
+  line-height:1.7;
 }
-
-@media (max-width: 430px) {
-  main { padding: 20px; }
-  .actions { flex-direction: column; }
+@media(max-width:540px) {
+  .two,.buttons { grid-template-columns:1fr; }
+  .panel { padding:18px; }
 }
 </style>
 </head>
-
 <body>
-<main>
-<h1>₿ CryptoBro Name Generator ₿</h1>
-<p class="subtitle">
-  Mint your unofficial 2026 TaxHawk Boot Camp identity!
-</p>
+<div class="container">
 
-<label for="gender">Choose your name style</label>
-<select id="gender">
-  <option value="female">Female</option>
-  <option value="male">Male</option>
-</select>
+<header>
+  <div class="coin">🪙🚀</div>
+  <h1>CRYPTOBRO IDENTITY LAB</h1>
+  <p class="subtitle">
+    Every tax professional has a CryptoBro alter ego.<br>
+    Discover yours. No actual cryptocurrency required.
+  </p>
+</header>
 
-<label for="investment">
-  Where would you invest your crypto fortune?
-</label>
-<select id="investment">
-  <option>Bitcoin</option>
-  <option>Ethereum</option>
-  <option>Dogecoin</option>
-  <option>Solana</option>
-  <option>XRP</option>
-  <option>Shiba Inu</option>
-  <option>Memecoins</option>
-  <option>Stablecoins</option>
-  <option>Bored Ape Yacht Club</option>
-  <option>CryptoPunks</option>
-  <option>Pudgy Penguins</option>
-  <option>Azuki</option>
-  <option>Doodles</option>
-</select>
+<div class="panel">
+  <label for="firstName">😎 What's your first name?</label>
+  <input id="firstName" maxlength="32"
+    placeholder="Enter your first name" autocomplete="given-name">
 
-<label for="role">What is your ESC level or role?</label>
-<select id="role">
-  <option>GQ</option>
-  <option>ESC 1</option>
-  <option>ESC 2</option>
-  <option>ESC 3</option>
-  <option>Supervisor</option>
-  <option>Manager</option>
-  <option>Pro</option>
-</select>
+  <label for="crypto">🪙 Which crypto would you YOLO your imaginary savings into?</label>
+  <select id="crypto">
+    <option value="bitcoin">Bitcoin (BTC)</option>
+    <option value="ethereum">Ethereum (ETH)</option>
+    <option value="dogecoin">Dogecoin (DOGE)</option>
+    <option value="solana">Solana (SOL)</option>
+    <option value="cardano">Cardano (ADA)</option>
+    <option value="xrp">XRP</option>
+    <option value="shiba">Shiba Inu (SHIB)</option>
+    <option value="litecoin">Litecoin (LTC)</option>
+    <option value="pepe">Pepe (PEPE)</option>
+    <option value="usdc">USD Coin (USDC)</option>
+    <option value="avalanche">Avalanche (AVAX)</option>
+    <option value="chainlink">Chainlink (LINK)</option>
+  </select>
 
-<label for="tenure">How long have you worked at TaxHawk?</label>
-<select id="tenure">
-  <option value="Under 2">Under 2 years</option>
-  <option value="2">2 years</option>
-  <option value="3">3 years</option>
-  <option value="4">4 years</option>
-  <option value="5">5 years</option>
-  <option value="6+">6+ years</option>
-</select>
-
-<section class="result" aria-live="polite">
-  <div class="eyebrow">₿ CRYPTO IDENTITY UNLOCKED ₿</div>
-  <div id="name"></div>
-  <div id="persona"></div>
-  <div id="description"></div>
-
-  <div class="detail">
-    <div class="detail-title cyan">
-      🔮 YOUR CRYPTO FORTUNE
+  <div class="two">
+    <div>
+      <label for="role">⚡ What's your TaxHawk role?</label>
+      <select id="role">
+        <option value="gq">GQ</option>
+        <option value="esc1">ESC 1</option>
+        <option value="esc2">ESC 2</option>
+        <option value="esc3">ESC 3</option>
+        <option value="supervisor">Supervisor</option>
+        <option value="manager">Manager</option>
+        <option value="pro">Pro</option>
+      </select>
     </div>
-    <p id="fortune"></p>
+    <div>
+      <label for="years">📅 Years at TaxHawk?</label>
+      <select id="years">
+        <option value="under2">Less than 2</option>
+        <option value="2">2 years</option>
+        <option value="3">3 years</option>
+        <option value="4">4 years</option>
+        <option value="5">5 years</option>
+        <option value="6">6 years</option>
+        <option value="7">7 years</option>
+        <option value="8">8 years</option>
+        <option value="9">9 years</option>
+        <option value="10plus">10+ years</option>
+      </select>
+    </div>
   </div>
 
-  <div class="detail">
-    <div class="detail-title purple">
-      ⚡ YOUR TAXHAWK SUPERPOWER
-    </div>
-    <p id="superpower"></p>
-  </div>
-</section>
-
-<div class="actions">
-  <button class="primary" onclick="generate()">
-    🚀 Generate Another
-  </button>
-  <button class="secondary" onclick="copyIdentity()">
-    📋 Copy Identity
+  <button class="primary" id="generate" type="button">
+    🚀 Generate My CryptoBro Identity
   </button>
 </div>
 
+<div class="panel" id="result" aria-live="polite">
+  <div class="result-header">
+    <div class="eyebrow">OFFICIAL CRYPTOBRO IDENTITY</div>
+    <div class="name" id="displayName"></div>
+    <div class="small">Certified CryptoBro. Uncertified financial genius.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">⛏️ CRYPTO PROFESSION</div>
+    <div class="profession" id="displayProfession"></div>
+    <div class="detail" id="displayActivity"></div>
+    <div class="detail">📬 <strong>Possible form received:</strong>
+      <span id="displayReceived"></span>
+    </div>
+    <div class="detail">🧾 <strong>Generally reported on:</strong>
+      <span id="displayReporting"></span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🎭 INVESTOR PERSONALITY</div>
+    <div class="quote" id="displayPersonality"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">⚡ TAXHAWK SUPERPOWER</div>
+    <div class="superline" id="displayExperience"></div>
+    <div class="quote" id="displaySuperpower"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🧩 YOUR CRYPTO TAX CHALLENGE</div>
+    <div class="detail challenge" id="displayChallenge"></div>
+    <p class="small">
+      Practice prompt only. The actual reporting depends on
+      the customer's facts and the applicable tax year.
+    </p>
+  </div>
+
+  <div class="buttons">
+    <button class="secondary" id="copyIdentity" type="button">
+      📋 Copy Identity for Teams
+    </button>
+    <button class="secondary" id="copyChallenge" type="button">
+      🧩 Copy Practice Scenario
+    </button>
+  </div>
+  <button class="primary" id="reroll" type="button">
+    🎲 Reroll My CryptoBro
+  </button>
+  <div id="notice" role="status"></div>
+</div>
+
 <footer>
-  TaxHawk Boot Camp 2026 • Just for fun • Not financial advice
+  Certified by the Totally Unofficial Blockchain Bro Academy.<br>
+  All identities and professions are fictional. Tax guidance is
+  educational and not a substitute for reviewing the facts.
 </footer>
-</main>
+
+</div>
 
 <script>
-// RANDOM HELPERS
-function random(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
+"use strict";
 
-function pickDifferent(items, previous) {
-  const available = items.length > 1
-    ? items.filter(item => item !== previous)
-    : items;
-  return random(available);
-}
+/* -------------------------------------------------
+   1. COIN-INSPIRED MIDDLE NAMES
+   Each coin has a variety of recognizable crypto names.
+------------------------------------------------- */
 
-// FIRST NAMES
-
-
-const firstNames = {
-  female: [
-    // Millennial Crypto Queen
-    "Tiffany", "Ashley", "Chelsea", "Kelsey",
-    "Stephanie", "Brooke", "Hailey", "Courtney",
-    "Alexis", "Madison",
-
-    // Gen Z NFT Collector
-    "Kenzie", "Paisley", "Everly", "Hadley",
-    "Aubrey", "Piper", "Reagan", "Delaney",
-    "Kinsley", "Brynlee",
-
-    // Tech/Crypto Girl
-    "Luna", "Nova", "Aria", "Ivy",
-    "Mila", "Willow", "Scarlett", "Stella",
-    "Zoey", "Hazel"
+const middleNames = {
+  bitcoin: [
+    "Satoshi","Nakamoto","Hodler","Hashley","Bitwise",
+    "Halving","Genesis","Moonshot","Blocker","Bitlord",
+    "Hashwell","Satstack","Lightning","Bitstorm","Bitminer"
   ],
-
-  male: [
-    // Millennial Crypto Bro
-    "Chad", "Kyle", "Brock", "Tyler",
-    "Dylan", "Jake", "Logan", "Trevor",
-    "Tanner", "Chase",
-
-    // Gen Z Crypto Trader
-    "Jaxon", "Brayden", "Ryder", "Kayden",
-    "Maddox", "Grayson", "Bentley", "Easton",
-    "Maverick", "Knox",
-
-    // Tech/Crypto Guy
-    "Aiden", "Oliver", "Asher", "Finn",
-    "Ezra", "Theo", "Axel", "Kai",
-    "Felix", "Zane"
+  ethereum: [
+    "Ether","Vitalik","Gwei","Gaslight","Beacon",
+    "Solidity","Etherion","Validator","Mainnet","Gaspar",
+    "Ethersmith","Merge","Staker","Ethereal","Weiward"
+  ],
+  dogecoin: [
+    "Doge","Shibe","Moonpaws","Barkley","Dogefather",
+    "Muchwow","Dogestar","Shibster","Moonhound","Dogemoon",
+    "Borkley","Pawchain","Dogewood","Dogeheart","Shibby"
+  ],
+  solana: [
+    "Solstice","Solana","Solflare","Sunbeam","Solstorm",
+    "Solwave","Solrocket","Sunchain","Solcaster","Solbright",
+    "Solvault","Solrider","Solspark","Sunblock","Solshade"
+  ],
+  cardano: [
+    "Ada","Cardano","Stakewell","Adaheart","Stakeley",
+    "Cardan","Ouroboros","Adanova","Stakewood","Adaquest",
+    "Cardinal","Stakelord","Adaforge","Stakefield","Adawise"
+  ],
+  xrp: [
+    "Ripple","Ripley","Rippleton","Xander","Ripplewave",
+    "Ledger","Rippletide","Ripplewood","Xavier","Ripplecrest",
+    "Rippleford","Ripplebolt","Ripplemoon","Ripplebrook","Ripplewell"
+  ],
+  shiba: [
+    "Shiba","Inu","Shibster","Moonpaws","Shibley",
+    "Pawcoin","Shibstorm","Shibworth","Barkley","Shibmoon",
+    "Shibwell","Pawchain","Shibrocket","Shibstar","Shibby"
+  ],
+  litecoin: [
+    "Lite","Silver","Litewave","Silvermoon","Litesmith",
+    "Litebeam","Liteford","Litecoin","Silverstack","Litening",
+    "Litebright","Litewell","Liteheart","Litebolt","Silverbit"
+  ],
+  pepe: [
+    "Pepe","Ribbit","Frogbert","Frogmoon","Swampy",
+    "Pepewise","Frogley","Ribbiton","Frogstar","Croakley",
+    "Pepecrest","Frogwell","Moonfrog","Frogstone","Pepewood"
+  ],
+  usdc: [
+    "Stable","Pegasus","Dollar","Stableton","Pegwell",
+    "Dollarwise","Stableford","Centurion","Pegstone","Stablecoin",
+    "Dollarbright","Pegley","Stableworth","Dollarcrest","Pegwood"
+  ],
+  avalanche: [
+    "Avalanche","Avax","Snowcap","Snowchain","Avalon",
+    "Frostbyte","Blizzard","Snowfall","Avalink","Frostwell",
+    "Avastorm","Snowforge","Frostcoin","Avalight","Snowvault"
+  ],
+  chainlink: [
+    "Oracle","Chainlink","Linkster","Linkwell","Chainwise",
+    "Oracleton","Linkforge","Chainstar","Linkwood","Oraclem",
+    "Linkstorm","Chainbridge","Linkstone","Oraclewise","Linkcrest"
   ]
 };
 
-  
-// RANDOM CRYPTO MIDDLE NAMES
-// Independent of the investment selection.
-const cryptoNames = [
-  "FOMO", "Degen",
-  "Rugpull", "Moonbag", "Diamond", "Paperhands",
-  "Laser", "Whale", "Shrimp", "Gas", "Gwei",
-  "Satoshi", "Moonboy", "Hopium", "Copium",
-  "Ape", "Rekt", "Pump", "Dump", "Shill",
-  "YOLO", "FUD", "Lambo", "Token", "Block",
-  "Hash", "Mint", "Staking", "Yield",
-  "Bagholder", "Bullrun", "Beartrap",
-  "Altcoin", "Memecoin", "NFT", "Pixel",
-  "Punk", "Airdrop", "Fork", "Ledger",
-  "DeFi", "Rocket", "Shiba", "Doge",
-  "Sats", "Liquidity", "Dipbuyer"
+/* -------------------------------------------------
+   2. EXPERIENCE-BASED SURNAMES
+
+   Role chooses the surname family.
+   Tenure chooses a surname within that family.
+   Random variants prevent identical results.
+   All surnames remain single, pronounceable words.
+------------------------------------------------- */
+
+const surnameFamilies = {
+  gq: [
+    "Bitwell","Coinley","Blocker","Mintford",
+    "Tokenley","Bitmore","Coinford","Blockley",
+    "Mintwell","Ledgerby","Bitfield","Coinworth"
+  ],
+  esc1: [
+    "Hashford","Blockwell","Chainley","Ledgerton",
+    "Bitstone","Tokenford","Hashley","Coinbridge",
+    "Blockford","Chainwell","Mintstone","Ledgerford"
+  ],
+  esc2: [
+    "Ledgerworth","Hashwell","Blocksmith","Chainford",
+    "Bitwarden","Coinstone","Hashbridge","Ledgerfield",
+    "Blockworth","Chainstone","Tokenwell","Bitford"
+  ],
+  esc3: [
+    "Satoshield","Ledgerstone","Hashworth","Chainwright",
+    "Blockwarden","Coinwright","Ledgercrest","Hashfield",
+    "Chainworth","Blockstone","Tokenwright","Bitcrest"
+  ],
+  supervisor: [
+    "Moonwarden","Ledgercrest","Chainworth","Blockwell",
+    "Hashkeeper","Coinwarden","Bitmaster","Chaincrest",
+    "Blockkeeper","Ledgerwell","Hashcrest","Moonworth"
+  ],
+  manager: [
+    "Whaleford","Ledgerworth","Chaincrest","Blockridge",
+    "Coincrest","Hashworth","Moonridge","Ledgerstone",
+    "Chainford","Blockworth","Whalestone","Coinridge"
+  ],
+  pro: [
+    "Taxoshi","Ledgerwise","Formchain","Coinwise",
+    "Taxworth","Bitwise","Ledgerford","Taxwell",
+    "Chainwise","Formworth","Taxstone","Blockwise"
+  ]
+};
+
+const tenureOffsets = {
+  under2:0,
+  "2":1,
+  "3":2,
+  "4":3,
+  "5":4,
+  "6":5,
+  "7":6,
+  "8":7,
+  "9":8,
+  "10plus":9
+};
+
+const roleLabels = {
+  gq:"GQ",
+  esc1:"ESC 1",
+  esc2:"ESC 2",
+  esc3:"ESC 3",
+  supervisor:"Supervisor",
+  manager:"Manager",
+  pro:"Pro"
+};
+
+const yearLabels = {
+  under2:"Less than 2 years",
+  "2":"2 years",
+  "3":"3 years",
+  "4":"4 years",
+  "5":"5 years",
+  "6":"6 years",
+  "7":"7 years",
+  "8":"8 years",
+  "9":"9 years",
+  "10plus":"10+ years"
+};
+
+/* -------------------------------------------------
+   3. PROFESSION CATEGORIES
+
+   Each category contains six fictional profession
+   titles, creating 84 titles in 14 categories.
+
+   Higher weight = more likely to be selected.
+
+   Forms received are POSSIBLE, not guaranteed.
+------------------------------------------------- */
+
+const professions = [
+
+  {
+    id:"sales",
+    weight:18,
+    titles:[
+      "Diamond Hands Day Trader",
+      "Midnight Bitcoin Flipper",
+      "Moonshot Portfolio Manager",
+      "Doge Market Maverick",
+      "Crypto Chart Whisperer",
+      "Blockchain Swing Trader"
+    ],
+    activity:"Buys and sells cryptocurrency for personal investment.",
+    received:"Form 1099-DA or, in some situations, Form 1099-B; possibly no form.",
+    reporting:"Generally Form 8949 and Schedule D.",
+    challenge:"You bought crypto for $1,200 and later sold it for $1,650. Determine the gain, holding period, and information needed to report the sale."
+  },
+
+  {
+    id:"swap",
+    weight:11,
+    titles:[
+      "Token Swap Specialist",
+      "Altcoin Exchange Artist",
+      "Ethereum Trade Wizard",
+      "Crypto Conversion Captain",
+      "Coin-to-Coin Connoisseur",
+      "Digital Asset Swapmaster"
+    ],
+    activity:"Trades one cryptocurrency for another.",
+    received:"Possibly Form 1099-DA or no information return.",
+    reporting:"Generally Form 8949 and Schedule D for investment holdings.",
+    challenge:"You exchange Bitcoin worth $900 for Ethereum. Your Bitcoin basis is $600. Identify the disposition and the basis of the Ethereum received."
+  },
+
+  {
+    id:"staking",
+    weight:15,
+    titles:[
+      "Galactic Staking Guru",
+      "Proof-of-Stake Superstar",
+      "Ethereum Validator Apprentice",
+      "Cosmic Coin Staker",
+      "Passive Rewards Collector",
+      "Blockchain Staking Baron"
+    ],
+    activity:"Receives cryptocurrency staking rewards outside a trade or business.",
+    received:"Possibly Form 1099-MISC, commonly box 3, or no form.",
+    reporting:"Generally Schedule 1, line 8v, for nonbusiness staking rewards.",
+    challenge:"You receive staking rewards worth $420 when you gain control of them. Explain the income reporting and what establishes their basis for a future sale."
+  },
+
+  {
+    id:"miningBusiness",
+    weight:10,
+    titles:[
+      "Midnight Bitcoin Miner",
+      "Industrial Hashrate Hero",
+      "Crypto Mining Mogul",
+      "Blockchain Rig Operator",
+      "Digital Gold Prospector",
+      "Professional Block Miner"
+    ],
+    activity:"Operates a cryptocurrency mining trade or business.",
+    received:"May receive an information return, such as Form 1099-MISC, or no form.",
+    reporting:"Generally Schedule C and, when applicable, Schedule SE.",
+    challenge:"Your mining business earns $3,500 of cryptocurrency and has $900 of qualifying business expenses. Identify the income, potential deductions, and business tax forms."
+  },
+
+  {
+    id:"freelance",
+    weight:10,
+    titles:[
+      "Dogecoin Design Freelancer",
+      "Bitcoin Coding Contractor",
+      "Crypto Content Creator",
+      "Ethereum Graphic Guru",
+      "Blockchain Website Builder",
+      "Digital Token Consultant"
+    ],
+    activity:"Performs independent-contractor services and is paid in cryptocurrency.",
+    received:"Possibly Form 1099-NEC; a form is not guaranteed.",
+    reporting:"Generally Schedule C and, when applicable, Schedule SE.",
+    challenge:"A freelance designer receives crypto worth $1,800 for a project. Determine the amount of business revenue and the basis of the crypto received."
+  },
+
+  {
+    id:"wages",
+    weight:8,
+    titles:[
+      "Bitcoin Salary Superstar",
+      "Blockchain Payroll Wizard",
+      "Ethereum Wage Earner",
+      "Crypto Compensation Captain",
+      "Digital Payday Professional",
+      "Tokenized Office Employee"
+    ],
+    activity:"Works as an employee and receives wages paid in cryptocurrency.",
+    received:"Form W-2 for U.S. employee wages.",
+    reporting:"Generally Form 1040 wages, based on the W-2.",
+    challenge:"Your employer pays you $2,000 worth of Bitcoin as wages. Explain how the compensation is reported and what basis you have in the Bitcoin."
+  },
+
+  {
+    id:"airdrops",
+    weight:7,
+    titles:[
+      "Airdrop Treasure Hunter",
+      "Free Token Explorer",
+      "Crypto Giveaway Goblin",
+      "Blockchain Bounty Collector",
+      "Surprise Coin Recipient",
+      "Digital Airdrop Adventurer"
+    ],
+    activity:"Receives taxable cryptocurrency through an airdrop or promotional distribution.",
+    received:"Possibly Form 1099-MISC or no form.",
+    reporting:"Generally Schedule 1, line 8z, if taxable and not business income.",
+    challenge:"You receive an airdrop worth $275 and can immediately control the tokens. Determine whether there is income and what establishes the basis."
+  },
+
+  {
+    id:"rewards",
+    weight:6,
+    titles:[
+      "Crypto Referral Royalty",
+      "Exchange Bonus Hunter",
+      "Token Promotion Pro",
+      "Digital Reward Collector",
+      "Coin Signup Superstar",
+      "Blockchain Loyalty Legend"
+    ],
+    activity:"Receives taxable crypto bonuses or promotional rewards.",
+    received:"Possibly Form 1099-MISC or no form.",
+    reporting:"Generally Schedule 1, line 8z, for nonbusiness miscellaneous rewards; facts may differ.",
+    challenge:"An exchange gives you a $75 crypto signup bonus for completing a promotional requirement. Determine the possible income reporting and basis."
+  },
+
+  {
+    id:"payments",
+    weight:4,
+    titles:[
+      "Crypto Coffee Shop Owner",
+      "Bitcoin Boutique Merchant",
+      "Dogecoin Dinner Dealer",
+      "Blockchain Retail Boss",
+      "Digital Currency Shopkeeper",
+      "Token-Taking Entrepreneur"
+    ],
+    activity:"Runs a business that accepts cryptocurrency as customer payment.",
+    received:"Business records; possibly Form 1099-K or another information return depending on the payment arrangement.",
+    reporting:"Generally Schedule C for a sole proprietorship; later crypto dispositions may create additional gain or loss.",
+    challenge:"A customer pays your business $150 worth of Bitcoin for a service. Determine the business revenue and initial basis in the Bitcoin."
+  },
+
+  {
+    id:"hobbyMining",
+    weight:3,
+    titles:[
+      "Basement Hash Hobbyist",
+      "Weekend Bitcoin Miner",
+      "Garage Mining Enthusiast",
+      "After-Hours Block Hunter",
+      "Casual Coin Prospector",
+      "Hobby Hashrate Hero"
+    ],
+    activity:"Mines cryptocurrency occasionally without operating a trade or business.",
+    received:"Often no information return.",
+    reporting:"Generally Schedule 1, line 8z, for nonbusiness mining income.",
+    challenge:"You mine $95 worth of crypto as a hobby. Identify the income event and explain why business deductions and self-employment tax require a separate business analysis."
+  },
+
+  {
+    id:"nft",
+    weight:3,
+    titles:[
+      "Pixelated NFT Flipper",
+      "Digital Art Collector",
+      "NFT Marketplace Maverick",
+      "JPEG Treasure Trader",
+      "Virtual Gallery Investor",
+      "Blockchain Art Dealer"
+    ],
+    activity:"Buys and sells NFTs held as personal investments.",
+    received:"Possibly Form 1099-DA or no form, depending on the transaction and reporting rules.",
+    reporting:"Generally Form 8949 and Schedule D for investment sales; special rules can apply.",
+    challenge:"You buy an NFT for $400 and sell it for $650. Determine the gain and what facts could change the tax treatment."
+  },
+
+  {
+    id:"gifts",
+    weight:2,
+    titles:[
+      "Birthday Bitcoin Collector",
+      "Crypto Gift Recipient",
+      "Holiday Token Hoarder",
+      "Family Wallet Beneficiary",
+      "Generous Grandma's Coin Keeper",
+      "Digital Gift Guardian"
+    ],
+    activity:"Receives cryptocurrency as a genuine personal gift.",
+    received:"Generally no income information return simply for receiving the gift.",
+    reporting:"Generally no income on receipt; a later disposition may require Form 8949 and Schedule D.",
+    challenge:"A relative gifts you Bitcoin currently worth $700. What basis records should you request before eventually selling it?"
+  },
+
+  {
+    id:"transfers",
+    weight:2,
+    titles:[
+      "Personal Wallet Wanderer",
+      "Cold Storage Commander",
+      "Hardware Wallet Hero",
+      "Self-Custody Specialist",
+      "Blockchain Transfer Traveler",
+      "Digital Vault Keeper"
+    ],
+    activity:"Moves cryptocurrency between wallets they personally own.",
+    received:"Generally no income information return solely for a self-transfer.",
+    reporting:"Generally no taxable sale from a transfer between your own wallets; retain basis and transaction records.",
+    challenge:"You move $2,000 worth of Bitcoin from an exchange to your own hardware wallet. Determine whether a sale occurred and which records should be preserved."
+  },
+
+  {
+    id:"defi",
+    weight:1,
+    titles:[
+      "DeFi Yield Explorer",
+      "Liquidity Pool Adventurer",
+      "Decentralized Finance Wizard",
+      "Token Lending Strategist",
+      "Crypto Protocol Pioneer",
+      "Digital Yield Alchemist"
+    ],
+    activity:"Participates in decentralized finance lending or liquidity arrangements.",
+    received:"Depends on the arrangement; possibly Form 1099-MISC, Form 1099-INT, or no form.",
+    reporting:"Depends on the legal and economic nature of the transactions; may involve ordinary income and dispositions.",
+    challenge:"You deposit tokens into a DeFi protocol and receive additional tokens as rewards. Identify the records needed before determining income, basis, and whether any disposition occurred."
+  }
+
 ];
 
-// LAST NAME PREFIX: ESC LEVEL
-const roleNames = {
-  "GQ": "Degen",
-  "ESC 1": "Ninja",
-  "ESC 2": "Cipher",
-  "ESC 3": "Satoshi",
-  "Supervisor": "Captain",
-  "Manager": "Whale",
-  "Pro": "Oracle"
-};
+/* -------------------------------------------------
+   4. INVESTOR PERSONALITIES
+------------------------------------------------- */
 
-// LAST NAME SUFFIX: TENURE
-const tenureNames = {
-  "Under 2": "Moon",
-  "2": "HODL",
-  "3": "Pump",
-  "4": "Diamond",
-  "5": "Rocket",
-  "6+": "Legend"
-};
-
-// 40 UNIQUE CRYPTO PERSONALITIES
 const personalities = [
-  ["The Diamond-Handed Tax Wizard",
-   "Survived three crashes and still asks for cost basis."],
-  ["The Gas Fee Goblin",
-   "Paid $45 to transfer $7 and called it innovation."],
-  ["The Moon Mission Commander",
-   "Every chart is apparently preparing for liftoff."],
-  ["The Rug Pull Detective",
-   "Trusts nobody, especially a token named SafeMoonAgain."],
-  ["The NFT Museum Curator",
-   "Owns pixel art and calls the collection a gallery."],
-  ["The Spreadsheet Satoshi",
-   "Tracks every satoshi down to eight decimals."],
-  ["The Dip Collector",
-   "Bought the dip, then collected five more dips."],
-  ["The Airdrop Archaeologist",
-   "Checks forgotten wallets for surprise treasure."],
-  ["The Blockchain Bard",
-   "Can turn any transaction into a dramatic story."],
-  ["The Meme Coin Monarch",
-   "Invests based on dog pictures and vibes."],
-  ["The Wallet Whisperer",
-   "Has twelve wallets and remembers two passwords."],
-  ["The Chart Horoscope Reader",
-   "Mercury is retrograde, so Bitcoin must rally."],
-  ["The Stablecoin Sailor",
-   "Loves excitement but prefers a steady peg."],
-  ["The Altcoin Astronaut",
-   "Explores tokens nobody has heard of yet."],
-  ["The Tax Season Survivor",
-   "Can explain Form 8949 while half asleep."],
-  ["The HODL Hermit",
-   "Has not checked a portfolio since 2021."],
-  ["The FOMO Firefighter",
-   "Buys at the top and calls it urgent research."],
-  ["The Cold Wallet Cowboy",
-   "Keeps keys offline and secrets even farther away."],
-  ["The DeFi Dungeon Master",
-   "Knows every protocol and none of the risks."],
-  ["The Staking Sorcerer",
-   "Makes tokens work while they take a nap."],
-  ["The Bitcoin Breakfast Club",
-   "Says good morning to the blockchain."],
-  ["The Paper Hands Pirate",
-   "Abandons ship at the first red candle."],
-  ["The Laser Eyes Legend",
-   "Has been bullish since before breakfast."],
-  ["The Token Treasure Hunter",
-   "Finds obscure coins in mysterious corners."],
-  ["The Crypto Compliance Ninja",
-   "Asks about documentation before the hype."],
-  ["The Liquidity Pool Lifeguard",
-   "Watches the pool for suspicious splashes."],
-  ["The Fork Road Ranger",
-   "Takes every blockchain split personally."],
-  ["The Smart Contract Spellcaster",
-   "Thinks code can fix the office printer."],
-  ["The Satoshi Snack Captain",
-   "Stacks sats and hoards office snacks."],
-  ["The NFT Penguin Wrangler",
-   "Has a digital penguin with a better wardrobe."],
-  ["The Diamond Desk Defender",
-   "Protects their keyboard and their coins."],
-  ["The Bull Run Cheerleader",
-   "Every green candle deserves a parade."],
-  ["The Bear Market Botanist",
-   "Insists portfolios grow better in winter."],
-  ["The Transaction Hash Hunter",
-   "Can find a receipt on any block explorer."],
-  ["The Crypto Karaoke King",
-   "Only sings songs about going to the moon."],
-  ["The Secret Seed Guardian",
-   "Will never type a recovery phrase into chat."],
-  ["The Yield Farming Farmer",
-   "Harvests rewards but forgot the tractor."],
-  ["The Degen Disco Dancer",
-   "Trades by moonlight and dances through volatility."],
-  ["The Tax Form Time Traveler",
-   "Still looking for last year's transaction history."],
-  ["The WAGMI Welcome Committee",
-   "Believes everyone can make it, with good records."]
+  "Has 47 crypto wallets and remembers zero passwords.",
+  "Has never taken profits, only screenshots.",
+  "Buys the dip, then panics when it keeps dipping.",
+  "Calls a 2% gain generational wealth.",
+  "Gets financial advice from a frog wearing sunglasses.",
+  "Wants to speak to the blockchain's supervisor.",
+  "Believes every red candle is a personal attack.",
+  "Checks crypto prices before checking the weather.",
+  "Owns three dog coins and calls that diversification.",
+  "Has a five-year plan based entirely on vibes.",
+  "Says 'we're early' about absolutely everything.",
+  "Treats every exchange notification like breaking news.",
+  "Thinks a hardware wallet belongs in a toolbox.",
+  "Still waiting for the coin a stranger recommended in 2021.",
+  "Has diamond hands and paper-thin patience.",
+  "Refuses to sell because the moon is apparently nearby.",
+  "Has a spreadsheet titled 'When Lambo?'",
+  "Calls losing money 'a long-term strategy.'",
+  "Bought crypto because the logo looked friendly.",
+  "Thinks reading three Reddit comments counts as research.",
+  "Says 'not financial advice' after giving financial advice.",
+  "Has a favorite blockchain but cannot explain why.",
+  "Keeps a lucky coin next to the trading laptop.",
+  "Believes their portfolio is simply misunderstood.",
+  "Can explain staking but cannot find their car keys.",
+  "Has more watchlists than actual investments.",
+  "Uses rocket emojis as a financial forecasting model.",
+  "Bought the top and called it a bold entrance.",
+  "Has been one good trade away from retirement for years.",
+  "Believes every coin deserves a second chance.",
+  "Keeps emergency snacks next to the mining rig.",
+  "Refers to every tiny gain as a historic moment.",
+  "Wants a refund from the blockchain.",
+  "Says 'it's a correction' through clenched teeth.",
+  "Owns a hoodie that says HODL and means it.",
+  "Thinks gas fees are what you pay at the pump.",
+  "Has a favorite candlestick pattern and no savings plan.",
+  "Is emotionally attached to a coin worth twelve cents.",
+  "Has notifications enabled for coins they don't own.",
+  "Says 'to the moon' even during a market crash.",
+  "Believes their portfolio needs encouragement.",
+  "Treats tax season like the final boss of cryptocurrency.",
+  "Has strong opinions about coins with cartoon animals.",
+  "Calls every market dip a surprise sale.",
+  "Would trust a talking Bitcoin before a bank manager.",
+  "Is convinced the next halving will solve everything.",
+  "Measures success in screenshots, not dollars.",
+  "Knows the current Bitcoin price but not today's date.",
+  "Has a secret wallet for coins they are embarrassed to own.",
+  "Explains blockchain at parties without being asked.",
+  "Thinks their wallet address should be on a business card.",
+  "Has a different crypto theory for every day of the week.",
+  "Keeps saying 'one last trade' before bedtime.",
+  "Thinks volatility builds character.",
+  "Would name a pet Satoshi.",
+  "Is personally offended by transaction fees.",
+  "Has a crypto prediction for every family gathering.",
+  "Claims to be diversified across six meme coins.",
+  "Trusts the blockchain more than their own memory.",
+  "Calls every failed investment a learning opportunity."
 ];
 
-// FIVE INVESTMENT-SPECIFIC FORTUNES EACH
-const investmentFortunes = {
-  Bitcoin: [
-    "Your Bitcoin will survive three market crashes, two forgotten passwords, and one awkward conversation with your accountant.",
-    "You will HODL so long that your future grandchildren inherit your investment philosophy.",
-    "Your dream retirement plan involves Bitcoin, a beach, and absolutely no spreadsheets.",
-    "You will buy the dip, then discover the dip has a basement.",
-    "One day you will explain Bitcoin at a family dinner and nobody will ask you back."
-  ],
-  Ethereum: [
-    "You will spend more on gas fees than actual gasoline.",
-    "Your future house will be controlled by smart contracts, including the refrigerator.",
-    "You will own enough ETH to feel important but still complain about transaction fees.",
-    "You will try to explain Ethereum to a relative and accidentally give a two-hour lecture.",
-    "Your next big financial breakthrough will be discovering what all those wallet transactions were."
-  ],
-  Dogecoin: [
-    "A cartoon dog will influence your financial decisions more than your accountant.",
-    "You will become emotionally attached to a cryptocurrency that started as a joke.",
-    "Your investment strategy will be described as 'much wow, very questionable.'",
-    "You will buy Dogecoin because the internet told you it was going to the moon.",
-    "Your portfolio will have more personality than your retirement account."
-  ],
-  Solana: [
-    "You will demand that everything in life move at blockchain speed.",
-    "Your Solana transactions will finish before your coffee gets cold.",
-    "You will describe yourself as a high-performance investor while wearing pajamas.",
-    "You will refresh your portfolio faster than anyone can answer a Teams message.",
-    "Your next big idea will involve Solana, a meme, and an unnecessarily complicated spreadsheet."
-  ],
-  XRP: [
-    "You will become the office expert on payment networks without anyone asking.",
-    "Your portfolio will move faster than your explanation of why you bought it.",
-    "You will insist that transaction speed is the most exciting dinner conversation.",
-    "You will explain cross-border payments to someone who only wanted lunch.",
-    "Your XRP investment will inspire you to check financial news before brushing your teeth."
-  ],
-  "Shiba Inu": [
-    "Your financial future will depend on the popularity of an internet dog.",
-    "You will accidentally become the proud owner of more dog-themed tokens than actual dogs.",
-    "Your investment thesis will include the phrase 'but look how cute it is.'",
-    "You will defend your favorite memecoin like it is a beloved family pet.",
-    "Your wallet will contain enough Shiba tokens to make the number look impressive."
-  ],
-  Memecoins: [
-    "Your next investment will be recommended by someone named CryptoToaster420.",
-    "You will buy a token because the logo made you laugh.",
-    "Your portfolio will be 10% strategy and 90% internet culture.",
-    "You will become famous in a group chat for buying the wrong meme at the right time.",
-    "Your investment research will involve more emojis than financial statements."
-  ],
-  Stablecoins: [
-    "You will enter the wild world of crypto and immediately ask for less volatility.",
-    "Your financial superpower will be getting excited about a one-cent price movement.",
-    "You will describe your portfolio as adventurous but responsibly boring.",
-    "Your favorite market trend will be a perfectly horizontal line.",
-    "You will bring a spreadsheet to a crypto party and somehow become the responsible adult."
-  ],
-  "Bored Ape Yacht Club": [
-    "You will purchase a digital ape and wait patiently for your yacht membership card.",
-    "Your NFT will have a more expensive wardrobe than you.",
-    "You will tell people your ape is rare, even when they say it looks like a cartoon.",
-    "Your future art collection will be measured in pixels and questionable decisions.",
-    "You will spend twenty minutes explaining why two nearly identical apes have different values."
-  ],
-  CryptoPunks: [
-    "You will own a tiny pixelated face and call yourself a digital art connoisseur.",
-    "Your NFT will look like it escaped from a 1980s computer.",
-    "You will become extremely passionate about the rarity of digital sunglasses.",
-    "Your collection will have fewer pixels than your phone's calculator.",
-    "You will proudly explain that your digital punk has historical significance."
-  ],
-  "Pudgy Penguins": [
-    "You will own a penguin that costs more than an actual vacation.",
-    "Your financial decisions will be influenced by the cuteness of digital birds.",
-    "You will name your NFT penguin and refer to it as a dependent.",
-    "Your portfolio will be the most adorable financial risk you have ever taken.",
-    "You will tell everyone your penguin is going to the moon, despite its lack of wings."
-  ],
-  Azuki: [
-    "Your investment portfolio will enter its anime hero training arc.",
-    "You will treat every market correction like an important character development episode.",
-    "Your NFT will have a cooler hairstyle than anyone at Boot Camp.",
-    "You will describe your investment journey using dramatic anime terminology.",
-    "Your digital collection will look like it belongs in an epic animated adventure."
-  ],
-  Doodles: [
-    "Your investment strategy will resemble an expensive coloring book.",
-    "You will become a serious collector of very unserious-looking art.",
-    "Your portfolio will contain more pastel colors than your office supplies.",
-    "You will tell your accountant that the doodle is actually an investment.",
-    "Your digital art collection will be cheerful even when the market is not."
-  ]
-};
+/* -------------------------------------------------
+   5. SHORT TAXHAWK SUPERPOWERS
+------------------------------------------------- */
 
-// EXTRA RANDOM FORTUNE TWISTS
-const fortuneTwists = [
-  "Your accountant requests a moment of silence.",
-  "Somewhere, a spreadsheet begins to cry.",
-  "The blockchain remembers everything. Unfortunately, so does the IRS.",
-  "Your future self would like to discuss your cost basis.",
-  "Your financial advisor has left the group chat.",
-  "A mysterious whale approves of your questionable confidence.",
-  "Your wallet has entered its main-character era.",
-  "Your transaction history is preparing a dramatic plot twist.",
-  "A tax professional just felt a disturbance in the force.",
-  "Your portfolio demands a standing ovation.",
-  "The crypto gods recommend keeping better records.",
-  "Your next big purchase may require an explanation on Form 8949.",
-  "Somewhere, a diamond-handed investor nods respectfully.",
-  "Your retirement calculator refuses to comment.",
-  "Your investment strategy has been classified as advanced chaos."
+const generalPowers = [
+  "Finds missing forms at lightning speed.",
+  "Turns confusion into confidence.",
+  "Can translate tax jargon into human.",
+  "Spots a wrong entry from across the room.",
+  "Keeps calm when the chat queue explodes.",
+  "Makes complicated questions sound simple.",
+  "Finds the one detail everyone else missed.",
+  "Turns tax chaos into organized answers.",
+  "Can detect a typo with superhero vision.",
+  "Makes every tax form less intimidating."
 ];
 
-// ROLE-SPECIFIC SUPERPOWERS
 const rolePowers = {
-  "GQ": [
-    "you can navigate unfamiliar tax questions with the determination of a blockchain explorer",
-    "you turn beginner curiosity into surprisingly useful customer answers",
-    "you approach every mysterious tax question like a brand-new crypto treasure hunt",
-    "you are fearless when searching for the answer to a question nobody saw coming",
-    "you can turn a confusing first encounter into a valuable learning moment"
+  gq:[
+    "Tames the wildest chat queue.",
+    "Turns tricky chats into happy endings.",
+    "Has unlimited patience power.",
+    "Finds answers faster than a refresh.",
+    "Makes first-contact magic happen.",
+    "Defeats confusion one chat at a time."
   ],
-  "ESC 1": [
-    "you can spot a confused customer faster than Bitcoin changes price",
-    "you translate tax jargon into sentences actual humans understand",
-    "you can find the right help article before the customer finishes explaining the problem",
-    "you turn tax-season panic into a manageable checklist",
-    "you have the patience to explain the same concept without sounding like a robot"
+  esc1:[
+    "Cracks stubborn cases in record time.",
+    "Defeats error messages with determination.",
+    "Knows where the missing answer hides.",
+    "Turns escalations into solved mysteries.",
+    "Can untangle the messiest account.",
+    "Finds fixes hiding in plain sight."
   ],
-  "ESC 2": [
-    "you can untangle complicated customer questions like a blockchain detective",
-    "you identify missing details before they become full-blown support mysteries",
-    "you turn confusing tax calculations into explanations that actually make sense",
-    "you can investigate a stubborn tax issue without losing your sense of humor",
-    "you are the human equivalent of a very organized transaction explorer"
+  esc2:[
+    "Smells escalations three chats away.",
+    "Sees the hidden pattern in every case.",
+    "Finds the bug behind the bug.",
+    "Can decode a customer's tax mystery.",
+    "Turns impossible cases into breakthroughs.",
+    "Follows the evidence like a detective."
   ],
-  "ESC 3": [
-    "you can solve tax mysteries that would make a crypto detective resign",
-    "you find the hidden detail everyone else overlooked",
-    "you can navigate complex tax scenarios with legendary patience",
-    "you translate complicated tax rules into explanations worthy of a standing ovation",
-    "you are the final boss of mysterious customer tax questions"
+  esc3:[
+    "Speaks fluent software logic.",
+    "Finds bugs before they find customers.",
+    "Can solve a case with one clue.",
+    "Sees through the toughest tax puzzles.",
+    "Makes complex problems surrender.",
+    "Can read between the code lines."
   ],
-  "Supervisor": [
-    "you can calm crypto chaos while answering three Teams messages simultaneously",
-    "you transform a five-paragraph customer complaint into one understandable sentence",
-    "you can rescue a complicated support situation without spilling your coffee",
-    "you guide your team through tax-season turbulence like a captain through a blockchain storm",
-    "you can identify when a customer needs reassurance, research, or a screenshot"
+  supervisor:[
+    "Summons a team huddle instantly.",
+    "Turns chaos into a game plan.",
+    "Can coach through any crisis.",
+    "Balances twelve priorities at once.",
+    "Keeps the whole team on track.",
+    "Turns escalations into teachable moments."
   ],
-  "Manager": [
-    "you can coordinate an entire squad of tax superheroes during peak season",
-    "you turn operational chaos into a plan that somehow actually works",
-    "you can see the big picture while everyone else is staring at one transaction",
-    "you keep the tax-season ship moving even when the market and inbox are crashing",
-    "you balance people, priorities, and problems like a master of decentralized operations"
+  manager:[
+    "Transforms chaos into a spreadsheet.",
+    "Sees tomorrow's problem today.",
+    "Can turn any meeting into a plan.",
+    "Makes metrics tell a story.",
+    "Finds order in operational chaos.",
+    "Can juggle priorities without dropping one."
   ],
-  "Pro": [
-    "you can spot a cost-basis problem from three screens away",
-    "you can explain complicated tax concepts without making anyone cry",
-    "you navigate obscure tax questions like a seasoned blockchain oracle",
-    "you can find the important tax detail buried beneath twenty unrelated facts",
-    "you make difficult tax scenarios look suspiciously easy"
+  pro:[
+    "Speaks fluent IRS instructions.",
+    "Finds the tax rule behind the mystery.",
+    "Can decode the toughest forms.",
+    "Sees deductions hiding in plain sight.",
+    "Makes tax complexity look easy.",
+    "Can navigate a maze of instructions."
   ]
 };
 
-// TENURE-SPECIFIC SUPERPOWERS
-const tenurePowers = {
-  "Under 2": [
-    "Your fresh perspective helps you notice things veterans overlook.",
-    "You bring rookie energy and surprisingly powerful research skills.",
-    "Your curiosity is stronger than a Bitcoin bull market.",
-    "You are still collecting experience points and already unlocking achievements.",
-    "You have the enthusiasm of someone who has not yet seen every possible tax-season surprise."
-  ],
-  "2": [
-    "Two years of TaxHawk adventures have sharpened your instincts.",
-    "You've earned enough experience to recognize a suspicious tax question.",
-    "Two years in, you can practically hear a missing form calling your name.",
-    "You've collected two years of tax knowledge and several legendary customer stories.",
-    "Your second-year superpower is knowing which questions need a closer look."
-  ],
-  "3": [
-    "Three years of tax seasons have given you an impressive sixth sense.",
-    "You've developed the ability to predict the next customer question.",
-    "Three years at TaxHawk have upgraded your patience to premium status.",
-    "You have enough tax-season experience to recognize trouble from a single sentence.",
-    "Your three-year streak has unlocked advanced troubleshooting mode."
-  ],
-  "4": [
-    "Four years at TaxHawk have turned your patience into a competitive advantage.",
-    "You've collected four years of knowledge and enough stories to fill a podcast.",
-    "Four years of experience have given you diamond hands for difficult support cases.",
-    "Your four-year superpower is staying calm when everyone else's tabs are multiplying.",
-    "Four years in, you know when to research, escalate, or simply take a coffee break."
-  ],
-  "5": [
-    "Five years at TaxHawk have earned you legendary tax-season endurance.",
-    "You've survived five years of tax changes and still know where to find the answer.",
-    "Your five-year experience badge comes with advanced problem-solving instincts.",
-    "Five years in, you've mastered the art of making complicated things sound simple.",
-    "You've reached five-year whale status in the ocean of tax knowledge."
-  ],
-  "6+": [
-    "With six or more years at TaxHawk, you're practically part of the company blockchain.",
-    "Your institutional knowledge belongs in a museum, preferably with neon lighting.",
-    "Six-plus years have made you a legendary guardian of tax-season wisdom.",
-    "You've seen enough tax scenarios to recognize patterns before they finish loading.",
-    "Your six-plus years of experience have unlocked ancient tax-wizard status."
-  ]
-};
+/* -------------------------------------------------
+   6. RANDOMIZATION AND UTILITIES
+------------------------------------------------- */
 
-// FUNNY SUPERPOWER FINISHERS
-const superpowerFinishers = [
-  "Your secret weapon is knowing exactly when someone needs a screenshot.",
-  "Even the blockchain would ask you for help.",
-  "Your keyboard deserves its own employee recognition award.",
-  "Your patience has officially achieved diamond-hand status.",
-  "Somewhere, a confused taxpayer is cheering for you.",
-  "Your Teams notification sound is practically your theme music.",
-  "Your troubleshooting skills have been approved by the crypto council.",
-  "Your browser tabs fear your organizational abilities.",
-  "Your tax-season survival rating is off the charts.",
-  "You could probably explain a blockchain to a golden retriever.",
-  "Your support instincts are stronger than a Bitcoin maximalist's opinions.",
-  "Your next achievement badge should be shaped like a tiny tax form.",
-  "You bring order to chaos, one customer question at a time.",
-  "Even Satoshi would be impressed with your documentation.",
-  "Your superpower runs entirely on coffee and determination."
-];
+const $ = id => document.getElementById(id);
 
-let previousFirst = "";
-let previousMiddle = "";
-let previousPersonality = -1;
-let previousFortune = "";
-let previousSuperpower = "";
-
-// GENERATE A COMPLETE CRYPTO IDENTITY
-function generate() {
-  const gender = document.getElementById("gender").value;
-  const investment = document.getElementById("investment").value;
-  const role = document.getElementById("role").value;
-  const tenure = document.getElementById("tenure").value;
-
-  // Random first and middle names.
-  const first = pickDifferent(
-    firstNames[gender], previousFirst
-  );
-  const middle = pickDifferent(
-    cryptoNames, previousMiddle
-  );
-
-  previousFirst = first;
-  previousMiddle = middle;
-
-  // Last name encodes role and tenure.
-  const last = roleNames[role] + tenureNames[tenure];
-  const fullName = first + " " + middle + " " + last;
-
-  // Random personality, avoiding immediate repeats.
-  let personalityId = Math.floor(
-    Math.random() * personalities.length
-  );
-
-  if (personalityId === previousPersonality) {
-    personalityId =
-      (personalityId + 1) % personalities.length;
+function randomInt(max) {
+  if (window.crypto && window.crypto.getRandomValues) {
+    const values = new Uint32Array(1);
+    const range = 4294967296;
+    const limit = range - (range % max);
+    let n;
+    do {
+      window.crypto.getRandomValues(values);
+      n = values[0];
+    } while (n >= limit);
+    return n % max;
   }
-
-  previousPersonality = personalityId;
-
-  // Investment-specific fortune with random twist.
-  let fortune = "";
-  let fortuneAttempts = 0;
-
-  do {
-    fortune =
-      random(investmentFortunes[investment]) + " " +
-      random(fortuneTwists);
-    fortuneAttempts++;
-  } while (
-    fortune === previousFortune &&
-    fortuneAttempts < 10
-  );
-
-  previousFortune = fortune;
-
-  // TaxHawk superpower combines role and tenure.
-  const roleLabel = role;
-  const tenureLabel = tenure === "Under 2"
-    ? "less than 2 years"
-    : tenure === "6+"
-      ? "6 or more years"
-      : tenure + " years";
-
-  let superpower = "";
-  let superpowerAttempts = 0;
-
-  do {
-    superpower =
-      "As a " + roleLabel + " with " +
-      tenureLabel + " at TaxHawk, " +
-      random(rolePowers[role]) + ". " +
-      random(tenurePowers[tenure]) + " " +
-      random(superpowerFinishers);
-
-    superpowerAttempts++;
-  } while (
-    superpower === previousSuperpower &&
-    superpowerAttempts < 10
-  );
-
-  previousSuperpower = superpower;
-
-  // Display the completed identity.
-  document.getElementById("name").textContent =
-    fullName;
-
-  document.getElementById("persona").textContent =
-    personalities[personalityId][0];
-
-  document.getElementById("description").textContent =
-    '"' + personalities[personalityId][1] + '"';
-
-  document.getElementById("fortune").textContent =
-    fortune;
-
-  document.getElementById("superpower").textContent =
-    superpower;
+  return Math.floor(Math.random() * max);
 }
 
-// COPY THE ENTIRE IDENTITY INTO TEAMS
-async function copyIdentity() {
-  const identity = [
-    "₿ MY CRYPTOBRO IDENTITY ₿",
+function pick(list) {
+  return list[randomInt(list.length)];
+}
+
+function weightedProfession() {
+  const total = professions.reduce((sum,p) => sum+p.weight,0);
+  let roll = randomInt(total);
+  for (const p of professions) {
+    if (roll < p.weight) return p;
+    roll -= p.weight;
+  }
+  return professions[0];
+}
+
+function getSurname(role,years) {
+  const list = surnameFamilies[role];
+  const offset = tenureOffsets[years];
+  const variation = randomInt(3);
+  return list[(offset+variation) % list.length];
+}
+
+function getSuperpower(role) {
+  const pool = [...generalPowers,...rolePowers[role]];
+  return pick(pool);
+}
+
+function cleanName(value) {
+  return value.trim().replace(/\s+/g," ").slice(0,32);
+}
+
+let current = null;
+let previous = null;
+
+function generateIdentity() {
+  const first = cleanName($("firstName").value);
+  if (!first) {
+    alert("Enter your first name to meet your CryptoBro!");
+    $("firstName").focus();
+    return;
+  }
+
+  const coin = $("crypto").value;
+  const role = $("role").value;
+  const years = $("years").value;
+
+  let candidate;
+
+  for (let attempt=0;attempt<12;attempt++) {
+    const middle = pick(middleNames[coin]);
+    const surname = getSurname(role,years);
+    const professionGroup = weightedProfession();
+
+    candidate = {
+      name:first+" "+middle+" "+surname,
+      profession:pick(professionGroup.titles),
+      activity:professionGroup.activity,
+      received:professionGroup.received,
+      reporting:professionGroup.reporting,
+      challenge:professionGroup.challenge,
+      personality:pick(personalities),
+      experience:roleLabels[role]+" · "+yearLabels[years]+" at TaxHawk",
+      superpower:getSuperpower(role),
+      category:professionGroup.id
+    };
+
+    if (!previous ||
+        candidate.name!==previous.name &&
+        candidate.profession!==previous.profession &&
+        candidate.personality!==previous.personality) {
+      break;
+    }
+  }
+
+  previous=current;
+  current=candidate;
+  showIdentity(candidate);
+}
+
+function showIdentity(c) {
+  $("displayName").textContent=c.name;
+  $("displayProfession").textContent=c.profession;
+  $("displayActivity").textContent=c.activity;
+  $("displayReceived").textContent=c.received;
+  $("displayReporting").textContent=c.reporting;
+  $("displayPersonality").textContent='"'+c.personality+'"';
+  $("displayExperience").textContent=c.experience;
+  $("displaySuperpower").textContent='"'+c.superpower+'"';
+  $("displayChallenge").textContent=c.challenge;
+  $("notice").textContent="";
+  $("result").style.display="block";
+  $("result").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+/* -------------------------------------------------
+   7. TEAMS-FRIENDLY COPY FORMAT
+------------------------------------------------- */
+
+function identityText(c) {
+  return [
+    "😎 CRYPTOBRO NAME",
+    c.name,
     "",
-    document.getElementById("name").textContent,
-    document.getElementById("persona").textContent,
-    document.getElementById("description").textContent,
+    "⛏️ CRYPTO PROFESSION",
+    c.profession,
+    c.activity,
     "",
-    "🔮 MY CRYPTO FORTUNE",
-    document.getElementById("fortune").textContent,
+    "📬 POSSIBLE FORM RECEIVED",
+    c.received,
     "",
-    "⚡ MY TAXHAWK SUPERPOWER",
-    document.getElementById("superpower").textContent
+    "🧾 GENERALLY REPORTED ON",
+    c.reporting,
+    "",
+    "🎭 INVESTOR PERSONALITY",
+    c.personality,
+    "",
+    "⚡ TAXHAWK SUPERPOWER",
+    c.experience,
+    c.superpower,
+    "",
+    "🧩 MY CRYPTO TAX CHALLENGE",
+    c.challenge
   ].join("\n");
+}
 
+function challengeText(c) {
+  return [
+    "🧩 CRYPTOBRO TAX CHALLENGE",
+    "",
+    "😎 "+c.name,
+    "⛏️ Profession: "+c.profession,
+    "",
+    "SCENARIO",
+    c.challenge,
+    "",
+    "📬 Possible form: "+c.received,
+    "🧾 General reporting: "+c.reporting
+  ].join("\n");
+}
+
+async function copyText(text) {
   try {
-    await navigator.clipboard.writeText(identity);
-    alert("Crypto identity copied! Paste it into Teams.");
-  } catch (error) {
-    window.prompt("Copy your identity:", identity);
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const box=document.createElement("textarea");
+      box.value=text;
+      box.style.position="fixed";
+      box.style.opacity="0";
+      document.body.appendChild(box);
+      box.focus();
+      box.select();
+      const ok=document.execCommand("copy");
+      document.body.removeChild(box);
+      if (!ok) throw new Error("Copy not supported");
+    }
+    $("notice").textContent="✅ Copied! Paste it into Teams.";
+  } catch(error) {
+    $("notice").textContent="Copy unavailable. Select and copy the text manually.";
+    window.prompt("Copy this text:",text);
   }
 }
 
-// Generate the first identity when the page opens.
-generate();
+/* -------------------------------------------------
+   8. BUTTONS
+------------------------------------------------- */
+
+$("generate").addEventListener("click",generateIdentity);
+$("reroll").addEventListener("click",generateIdentity);
+
+$("copyIdentity").addEventListener("click",function(){
+  if (current) copyText(identityText(current));
+});
+
+$("copyChallenge").addEventListener("click",function(){
+  if (current) copyText(challengeText(current));
+});
+
+$("firstName").addEventListener("keydown",function(event){
+  if (event.key==="Enter") generateIdentity();
+});
+
 </script>
 </body>
 </html>
